@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { UnAuthenticateException } = require("../utils/exceptions/handler");
-const PersonalAccessToken = require("../models/PersonalAccessToken");
+
 const AuthService = require("../services/AuthService");
 
 const Authenticate = async (req, res, next) => {

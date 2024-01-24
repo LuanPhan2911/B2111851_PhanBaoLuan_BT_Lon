@@ -11,24 +11,15 @@ const AuthController = {
   login: async (req, res, next) => {
     try {
       let { email, password } = req.body;
-      if (!email || !password) {
-        throw new ApiError(400, "Need provide  email, password");
-      }
-      let query = await User.findOne({
-        email,
-      });
-      if (!query) {
-        throw new ApiError(400, "User not found");
-      }
-      let user = query.toObject();
+      let user = await User.findOne({ email });
       let passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
         throw new ApiError(400, "Password not correct");
       }
+      user = user.toObject();
       delete user["password"];
 
       let token = await AuthService.createToken(user);
-
       return res.json({
         data: user,
         token: token,

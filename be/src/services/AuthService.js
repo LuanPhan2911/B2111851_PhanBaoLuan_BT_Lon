@@ -14,7 +14,9 @@ class AuthService {
         expired: moment().add(7, "days"),
       });
       return token;
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
   static async deleteToken(token) {
     try {

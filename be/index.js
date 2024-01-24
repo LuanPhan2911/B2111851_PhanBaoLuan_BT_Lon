@@ -7,14 +7,15 @@ const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
 app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(authRoute);
+app.use("/api", authRoute);
 
 app.use((req, res, next) => {
   return next(ResourceNotFoundException);
 });
 app.use((err, req, res, next) => {
-  return res.status(err.statusCode || 500).json({
-    message: err.message || "Internal Error from server!",
+  return res.status(err?.statusCode || 500).json({
+    message: err?.message || "Internal Error from server!",
+    errors: err?.errors || null,
   });
 });
 
