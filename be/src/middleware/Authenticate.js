@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
-const {
-  UnAuthenticateException,
-  InvalidTokenException,
-} = require("../utils/exceptions/handler");
+const { UnAuthenticateException } = require("../utils/exceptions/handler");
 const PersonalAccessToken = require("../models/PersonalAccessToken");
+const AuthService = require("../services/AuthService");
 
 const Authenticate = async (req, res, next) => {
   try {
@@ -13,18 +11,14 @@ const Authenticate = async (req, res, next) => {
       throw UnAuthenticateException;
     }
     let decoded = jwt.decode(token, process.env.APP_SECRET);
-    let accessToken = await PersonalAccessToken.findOne({
-      token: token,
-      expired: {
-        $gte: new Date(),
-      },
-    });
-    if (!accessToken) {
+    let isValidToken = await AuthService.isValidToken(token);
+    if (!isValidToken) {
       throw UnAuthenticateException;
     }
 
     //set user
     req.user = decoded;
+    req.token = token;
     next();
   } catch (error) {
     next(error);

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 const authRoute = require("./src/routes/auth");
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
+const Scheduler = require("./src/schedules/Scheduler");
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(authRoute);
@@ -31,3 +32,4 @@ async function connectDB() {
     console.log("Error from connect DB");
   }
 }
+Scheduler.deleteInvalidToken();
