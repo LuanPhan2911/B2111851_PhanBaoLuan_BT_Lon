@@ -25,14 +25,14 @@ class AuthService {
       });
     } catch (error) {}
   }
-  static async isValidToken(token) {
+  static async validToken(token) {
     let personalAccessToken = await PersonalAccessToken.findOne({
       token: token,
       expired: {
         $gte: new Date(),
       },
-    });
-    return personalAccessToken ? true : false;
+    }).populate("user", "-password");
+    return personalAccessToken;
   }
   static async deleteInvalidToken() {
     try {

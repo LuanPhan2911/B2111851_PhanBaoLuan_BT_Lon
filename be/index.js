@@ -3,11 +3,19 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
 const authRoute = require("./src/routes/auth");
+const userRoute = require("./src/routes/user");
+const genreRoute = require("./src/routes/genre");
+const bookRoute = require("./src/routes/book");
+const publisherRoute = require("./src/routes/publisher");
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/api", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/genres", genreRoute);
+app.use("/api/publishers", publisherRoute);
+app.use("/api/books", bookRoute);
 
 app.use((req, res, next) => {
   return next(ResourceNotFoundException);

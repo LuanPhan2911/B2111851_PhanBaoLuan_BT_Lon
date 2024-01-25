@@ -3,27 +3,27 @@ const { UnAuthenticateException } = require("../utils/exceptions/handler");
 
 const AuthService = require("../services/AuthService");
 
-const Authenticate = async (req, res, next) => {
+const AuthMiddleware = async (req, res, next) => {
   try {
     let token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
       throw UnAuthenticateException;
     }
-    let decoded = jwt.decode(token, process.env.APP_SECRET);
-    let isValidToken = await AuthService.isValidToken(token);
-    if (!isValidToken) {
+    let personalAccessToken = await AuthService.validToken(token);
+    if (!personalAccessToken) {
       throw UnAuthenticateException;
     }
 
-    //set user
-    req.user = decoded;
+    if (!personalAccessToken.user) {
+      throw UnAuthenticateException;
+    }
+    req.user = personalAccessToken.user;
     req.token = token;
+
     next();
   } catch (error) {
     next(error);
   }
 };
-module.exports = {
-  Authenticate,
-};
+module.exports = AuthMiddleware;

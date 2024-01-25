@@ -5,7 +5,7 @@ class UserService {
     let user = await User.findOne({
       email,
     });
-    return user ? true : false;
+    return user;
   }
 }
 module.exports = UserService;

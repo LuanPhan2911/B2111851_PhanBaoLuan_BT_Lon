@@ -18,8 +18,8 @@ const userSchema = new Schema(
       type: Date,
     },
     gender: {
-      type: Boolean,
-      default: false,
+      type: Number,
+      default: 1,
     },
     avatar: {
       type: String,
@@ -31,8 +31,9 @@ const userSchema = new Schema(
       type: String,
     },
     role: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["admin", "reader"],
+      default: "reader",
     },
   },
   {

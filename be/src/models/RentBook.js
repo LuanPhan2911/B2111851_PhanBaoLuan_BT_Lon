@@ -6,9 +6,9 @@ const publisherSchema = new Schema(
       ref: "Book",
       required: true,
     },
-    reader: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: "Reader",
+      ref: "User",
       required: true,
     },
     status: {

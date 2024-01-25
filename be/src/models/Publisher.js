@@ -5,8 +5,9 @@ const publisherSchema = new Schema(
       type: String,
       required: true,
     },
-    address: {
+    slug: {
       type: String,
+      required: true,
     },
   },
   {

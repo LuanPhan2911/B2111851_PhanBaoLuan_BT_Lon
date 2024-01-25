@@ -29,7 +29,7 @@ const bookSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Publisher",
     },
-    genre: [
+    genres: [
       {
         type: Schema.Types.ObjectId,
         ref: "Genre",
@@ -44,4 +44,4 @@ const bookSchema = new Schema(
     timestamps: true,
   }
 );
-module.exports = model("Book", bookSchemaSchema);
+module.exports = model("Book", bookSchema);

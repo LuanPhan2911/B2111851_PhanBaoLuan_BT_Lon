@@ -16,13 +16,13 @@ const AuthController = {
       if (!passwordCompare) {
         throw new ApiError(400, "Password not correct");
       }
-      user = user.toObject();
-      delete user["password"];
-
-      let token = await AuthService.createToken(user);
+      let token = await AuthService.createToken({
+        _id: user._id,
+        name: user.name,
+        isAdmin: user.role === "admin",
+      });
       return res.json({
-        data: user,
-        token: token,
+        data: token,
       });
     } catch (error) {
       next(error);
@@ -48,10 +48,8 @@ const AuthController = {
         email,
         password: hashPassword,
       });
-      user = user.toObject();
-      delete user["password"];
       return res.json({
-        data: user,
+        message: "User Register success",
       });
     } catch (error) {
       next(error);
