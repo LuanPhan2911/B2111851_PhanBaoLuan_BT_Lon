@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { FileNotFoundException } = require("../utils/exceptions/handler");
 const { remove, assetPath } = require("../utils/fileStorage/upload");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 
@@ -17,28 +18,44 @@ const UserController = {
   update: async (req, res, next) => {
     try {
       let id = req.user._id;
-      let userUpdate = null;
-      if (!req.file) {
-        userUpdate = await User.findByIdAndUpdate(id, req.body, {
-          returnDocument: "after",
-          projection: "-password",
-        });
-      } else {
-        let user = await User.findById(id);
-        if (user.avatar) {
-          remove(user.avatar);
-        }
 
-        req.body.avatar = assetPath(req.file?.path);
-        userUpdate = await User.findByIdAndUpdate(id, req.body, {
-          returnDocument: "after",
-          projection: "-password",
-        });
-      }
+      let user = await User.findByIdAndUpdate(id, req.validated, {
+        returnDocument: "after",
+        projection: "-password",
+      });
 
       return res.json(
         ResponseSuccess({
-          data: userUpdate,
+          data: user,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
+  updateAvatar: async (req, res, next) => {
+    try {
+      let id = req.user._id;
+
+      let user = await User.findById(id);
+      if (user.avatar) {
+        remove(user.avatar);
+      }
+
+      await User.findByIdAndUpdate(
+        id,
+        {
+          avatar: assetPath(req.file?.path),
+        },
+        {
+          returnDocument: "after",
+          projection: "-password",
+        }
+      );
+
+      return res.json(
+        ResponseSuccess({
+          message: "Update Image Success",
         })
       );
     } catch (error) {

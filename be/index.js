@@ -12,6 +12,7 @@ const Scheduler = require("./src/schedules/Scheduler");
 app.use(express.static("public"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+
 app.use("/api", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/genres", genreRoute);

@@ -14,7 +14,7 @@ let upload = ({ dir }) => {
   return multer({ storage: storage(dir) });
 };
 const assetPath = (path) => {
-  return path.replace("public", "").replaceAll("\\", "/");
+  return path?.replace("public", "")?.replaceAll("\\", "/");
 };
 const remove = (path) => {
   let publicPath = "public" + path;

@@ -43,7 +43,7 @@ const AuthController = {
       }
 
       let hashPassword = await bcrypt.hash(password, 10);
-      let user = await User.create({
+      await User.create({
         name,
         email,
         password: hashPassword,

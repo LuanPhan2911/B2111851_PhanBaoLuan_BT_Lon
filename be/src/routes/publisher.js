@@ -3,6 +3,7 @@ const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
 const PublisherController = require("../controllers/PublisherController");
 const StorePublisherRequest = require("../requests/publisher/StorePublisherRequest");
 const StoreManyPublisherRequest = require("../requests/publisher/StoreManyPublisherRequest");
+const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
 
 const router = Router();
 
@@ -15,6 +16,10 @@ router.post(
   StoreManyPublisherRequest,
   PublisherController.storeMany
 );
-router.delete("/:id/delete", PublisherController.destroy);
+router.delete(
+  "/:_id/delete",
+  isValidObjectIdMiddleWare,
+  PublisherController.destroy
+);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
+const { filterObjectKeys } = require("../../utils/helper");
 
 const UpdateUserRequest = (req, res, next) => {
   try {
@@ -7,7 +8,6 @@ const UpdateUserRequest = (req, res, next) => {
       name: "required|string",
       birthday: "date",
       gender: "required|integer|in:0,1,2",
-      // avatar: "string",
       phoneNumber: "required|string",
       address: "required|string",
     };
@@ -15,6 +15,8 @@ const UpdateUserRequest = (req, res, next) => {
     let validation = new Validator(req.body, rules);
 
     if (validation.passes()) {
+      let validKeys = Object.keys(validation.rules);
+      req.validated = filterObjectKeys(req.body, validKeys);
       next();
     } else {
       next(FailValidateException(validation.errors.all()));

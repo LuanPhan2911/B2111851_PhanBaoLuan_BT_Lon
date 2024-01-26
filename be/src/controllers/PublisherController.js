@@ -54,11 +54,11 @@ const PublisherController = {
   },
   destroy: async (req, res, next) => {
     try {
-      let { id } = req.params;
-      await Publisher.findByIdAndDelete(id);
+      let { _id } = req.params;
+      await Publisher.findByIdAndDelete(_id);
       await Book.updateMany(
         {
-          publisher: id,
+          publisher: _id,
         },
         {
           $set: {

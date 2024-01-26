@@ -54,15 +54,15 @@ const GenreController = {
   },
   destroy: async (req, res, next) => {
     try {
-      let { id } = req.params;
-      await Genre.findByIdAndDelete(id);
+      let { _id } = req.params;
+      await Genre.findByIdAndDelete(_id);
       await Book.updateMany(
         {
-          genre: id,
+          genre: _id,
         },
         {
           $pull: {
-            genre: id,
+            genre: _id,
           },
         }
       );
