@@ -9,6 +9,7 @@ const bookRoute = require("./src/routes/book");
 const publisherRoute = require("./src/routes/publisher");
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
+app.use(express.static("public"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/api", authRoute);

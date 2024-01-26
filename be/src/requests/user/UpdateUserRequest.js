@@ -7,7 +7,7 @@ const UpdateUserRequest = (req, res, next) => {
       name: "required|string",
       birthday: "date",
       gender: "required|integer|in:0,1,2",
-      avatar: "string",
+      // avatar: "string",
       phoneNumber: "required|string",
       address: "required|string",
     };
