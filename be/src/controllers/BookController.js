@@ -6,9 +6,24 @@ const slug = require("slug");
 const BookController = {
   index: async (req, res, next) => {
     try {
-      let books = await Book.find()
-        .populate("publisher", "-books")
-        .populate("genres", "-books");
+      let { page } = req.query;
+      let books = await Book.paginate(
+        {},
+        {
+          page,
+          limit: 10,
+          populate: [
+            {
+              path: "publisher",
+              select: "-books",
+            },
+            {
+              path: "genres",
+              select: "-books",
+            },
+          ],
+        }
+      );
       return res.json(
         ResponseSuccess({
           data: books,

@@ -5,10 +5,11 @@ const BookController = require("../controllers/BookController");
 const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
 const { upload } = require("../utils/fileStorage/upload");
 const HasSingleFileMiddleware = require("../middleware/HasSingleFileMiddleware");
+const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
 const router = Router();
 
 router.get("/:_id/show", isValidObjectIdMiddleWare, BookController.show);
-router.get("/", BookController.index);
+router.get("/", isValidPageNumberMiddleware, BookController.index);
 
 router.use(AuthAdminMiddleware);
 router.post("/create", StoreBookRequest, BookController.store);
