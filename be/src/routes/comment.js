@@ -4,6 +4,7 @@ const CommentController = require("../controllers/CommentController");
 const StoreCommentRequest = require("../requests/comment/StoreCommentRequest");
 const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
 const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+const DestroyCommentRequest = require("../requests/comment/DestroyCommentRequest");
 
 const router = Router();
 
@@ -20,6 +21,11 @@ router.delete(
   "/:_id/delete",
   isValidObjectIdMiddleWare,
   CommentController.destroy
+);
+router.delete(
+  "/delete_all",
+  DestroyCommentRequest,
+  CommentController.destroyAll
 );
 
 module.exports = router;

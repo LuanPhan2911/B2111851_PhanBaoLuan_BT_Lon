@@ -1,5 +1,5 @@
 const { model, Schema } = require("mongoose");
-const publisherSchema = new Schema(
+const rentingBook = new Schema(
   {
     book: {
       type: Schema.Types.ObjectId,
@@ -11,6 +11,11 @@ const publisherSchema = new Schema(
       ref: "User",
       required: true,
     },
+    expire_at: {
+      type: Date,
+      required: true,
+      min: Date.now(),
+    },
     status: {
       type: String,
       enum: ["renting", "completed"],
@@ -21,4 +26,4 @@ const publisherSchema = new Schema(
     timestamps: true,
   }
 );
-module.exports = model("Publisher", publisherSchema);
+module.exports = model("RentingBook", rentingBook);

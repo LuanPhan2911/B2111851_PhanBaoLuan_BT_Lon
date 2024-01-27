@@ -1,7 +1,11 @@
 const Book = require("../models/Book");
+const CommentService = require("../services/CommentSerivce");
 const { assetPath, remove } = require("../utils/fileStorage/upload");
 
-const { ResponseSuccess } = require("../utils/responses/JsonResponse");
+const {
+  ResponseSuccess,
+  ResponseFailure,
+} = require("../utils/responses/JsonResponse");
 const slug = require("slug");
 const BookController = {
   index: async (req, res, next) => {
@@ -37,6 +41,8 @@ const BookController = {
     try {
       let book = await Book.create({
         ...req.validated,
+        total_quantity: req.validated.quantity,
+        remain_quantity: req.validated.quantity,
         slug: slug(req.validated.name),
       });
       return res.json(
@@ -66,10 +72,16 @@ const BookController = {
   update: async (req, res, next) => {
     try {
       let { _id } = req.params;
-      let book = await Book.findByIdAndUpdate(_id, {
-        ...req.validated,
-        slug: slug(req.validated.name),
-      });
+      let book = await Book.findByIdAndUpdate(
+        _id,
+        {
+          ...req.validated,
+          slug: slug(req.validated.name),
+        },
+        {
+          returnDocument: "after",
+        }
+      );
       return res.json(
         ResponseSuccess({
           data: book,
@@ -88,9 +100,15 @@ const BookController = {
         remove(book.image);
       }
 
-      await Book.findByIdAndUpdate(_id, {
-        image: assetPath(req.file?.path),
-      });
+      await Book.findByIdAndUpdate(
+        _id,
+        {
+          image: assetPath(req.file?.path),
+        },
+        {
+          returnDocument: "after",
+        }
+      );
 
       return res.json(
         ResponseSuccess({
@@ -106,9 +124,13 @@ const BookController = {
     try {
       let { _id } = req.params;
       let book = await Book.findByIdAndDelete(_id);
-      if (book.image) {
-        remove(book.image);
+      if (book?.image) {
+        remove(book?.image);
       }
+      await CommentService.deleteAll({
+        _id,
+        _type: "Book",
+      });
       return res.json(
         ResponseSuccess({
           message: "Delete Book Success",

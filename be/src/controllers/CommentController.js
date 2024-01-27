@@ -1,5 +1,7 @@
+const { model } = require("mongoose");
 const Comment = require("../models/Comment");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
+const CommentService = require("../services/CommentSerivce");
 
 const CommentController = {
   index: async (req, res, next) => {
@@ -57,8 +59,13 @@ const CommentController = {
   },
   store: async (req, res, next) => {
     try {
+      let { commentable, message, parent } = req.validated;
+      console.log(commentable, message, parent);
       let comment = await Comment.create({
-        ...req.validated,
+        commentable_id: commentable._id,
+        commentable_type: commentable._type,
+        message,
+        parent_id: parent ? parent?.id : null,
         user: req.user._id,
       });
       let { parent_id } = req.validated;
@@ -110,6 +117,22 @@ const CommentController = {
       return res.json(
         ResponseSuccess({
           message: "Delete Comment Success",
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
+  destroyAll: async (req, res, next) => {
+    try {
+      let { _id, _type } = req.validated?.commentable;
+      await CommentService.deleteAll({
+        _id,
+        _type,
+      });
+      return res.json(
+        ResponseSuccess({
+          message: "Delete All Comment Success",
         })
       );
     } catch (error) {

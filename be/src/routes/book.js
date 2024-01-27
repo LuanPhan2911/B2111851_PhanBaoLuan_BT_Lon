@@ -6,6 +6,8 @@ const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddlewa
 const { upload } = require("../utils/fileStorage/upload");
 const HasSingleFileMiddleware = require("../middleware/HasSingleFileMiddleware");
 const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
+const UpdateBookRequest = require("../requests/book/UpdateBookRequest");
+const DestroyBookRequest = require("../requests/book/DestroyBookRequest");
 const router = Router();
 
 router.get("/:_id/show", isValidObjectIdMiddleWare, BookController.show);
@@ -16,7 +18,7 @@ router.post("/create", StoreBookRequest, BookController.store);
 router.put(
   "/:_id/edit",
   isValidObjectIdMiddleWare,
-  StoreBookRequest,
+  UpdateBookRequest,
   BookController.update
 );
 router.put(
@@ -31,6 +33,7 @@ router.put(
 router.delete(
   "/:_id/delete",
   isValidObjectIdMiddleWare,
+  DestroyBookRequest,
   BookController.destroy
 );
 

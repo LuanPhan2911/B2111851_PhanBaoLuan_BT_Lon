@@ -3,18 +3,8 @@ const { FailValidateException } = require("../../utils/exceptions/handler");
 const { filterObjectKeys } = require("../../utils/helper");
 const CommentService = require("../../services/CommentSerivce");
 
-const StoreCommentRequest = (req, res, next) => {
+const DestroyCommentRequest = (req, res, next) => {
   try {
-    Validator.registerAsync(
-      "comment_parent_exist",
-      async function (_id, attribute, req, passes) {
-        return (await CommentService.exist({
-          _id,
-        }))
-          ? passes()
-          : passes(false, "The parent replies id field is not valid");
-      }
-    );
     Validator.registerAsync(
       "commentable_id_valid",
       async function (_id, attribute, key, passes) {
@@ -33,10 +23,6 @@ const StoreCommentRequest = (req, res, next) => {
     );
 
     const rules = {
-      message: "required|string",
-      parent: {
-        _id: "string|comment_parent_exist",
-      },
       commentable: {
         _type: "required|in:Book",
         _id: "required|string|commentable_id_valid",
@@ -57,4 +43,4 @@ const StoreCommentRequest = (req, res, next) => {
     next(error);
   }
 };
-module.exports = StoreCommentRequest;
+module.exports = DestroyCommentRequest;

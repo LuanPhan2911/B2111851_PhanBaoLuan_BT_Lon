@@ -1,5 +1,6 @@
 const { model, Schema } = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
+
 const commentSchema = new Schema(
   {
     user: {

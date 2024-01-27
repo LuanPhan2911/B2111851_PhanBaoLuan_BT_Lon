@@ -21,7 +21,11 @@ const bookSchema = new Schema(
       type: String,
       required: true,
     },
-    quantity: {
+    total_quantity: {
+      type: Number,
+      required: true,
+    },
+    remain_quantity: {
       type: Number,
       required: true,
     },

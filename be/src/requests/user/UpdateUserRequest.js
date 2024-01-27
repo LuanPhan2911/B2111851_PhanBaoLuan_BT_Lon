@@ -15,7 +15,7 @@ const UpdateUserRequest = (req, res, next) => {
     let validation = new Validator(req.body, rules);
 
     if (validation.passes()) {
-      let validKeys = Object.keys(validation.rules);
+      let validKeys = Object.keys(rules);
       req.validated = filterObjectKeys(req.body, validKeys);
       next();
     } else {
