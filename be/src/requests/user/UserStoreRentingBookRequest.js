@@ -3,7 +3,7 @@ const { FailValidateException } = require("../../utils/exceptions/handler");
 const { filterObjectKeys } = require("../../utils/helper");
 const BookService = require("../../services/BookService");
 
-const StoreRentingBookRequest = (req, res, next) => {
+const UserStoreRentingBookRequest = (req, res, next) => {
   try {
     Validator.registerAsync(
       "book_id_valid",
@@ -12,17 +12,35 @@ const StoreRentingBookRequest = (req, res, next) => {
           _id,
         });
         if (!book) {
-          return passes(false, "Invalid Book id");
+          return passes(false, `No find book with _id ${_id}`);
         }
-        if (book.remain_quantity < 1) {
-          return passes(false, "No book to rent");
-        }
+
         passes();
+      }
+    );
+    Validator.registerAsync(
+      "quantity_valid",
+      async function (quantity, attribute, key, passes) {
+        let { _id } = req.body?.book;
+        let book = await BookService.exist({
+          _id,
+        });
+        if (!book) {
+          return passes(false, `No find book with _id ${_id}`);
+        }
+        if (book.remain_quantity < Number(quantity)) {
+          return passes(
+            false,
+            `The book remain ${book.remain_quantity} while renting ${quantity}`
+          );
+        }
+        return passes();
       }
     );
 
     const rules = {
-      expire_at: "required|integer|min:1",
+      days_after_expire: "required|integer|min:1",
+      quantity: "integer|min:1|quantity_valid",
       book: {
         _id: "required|string|book_id_valid",
       },
@@ -41,4 +59,4 @@ const StoreRentingBookRequest = (req, res, next) => {
     next(error);
   }
 };
-module.exports = StoreRentingBookRequest;
+module.exports = UserStoreRentingBookRequest;

@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 const rentingBook = new Schema(
   {
     book: {
@@ -16,14 +17,19 @@ const rentingBook = new Schema(
       required: true,
       min: Date.now(),
     },
+    quantity: {
+      type: Number,
+      default: 1,
+    },
     status: {
       type: String,
-      enum: ["renting", "completed"],
-      default: "renting",
+      enum: ["spending", "renting", "completed"],
+      default: "spending",
     },
   },
   {
     timestamps: true,
   }
 );
+rentingBook.plugin(mongoosePaginate);
 module.exports = model("RentingBook", rentingBook);

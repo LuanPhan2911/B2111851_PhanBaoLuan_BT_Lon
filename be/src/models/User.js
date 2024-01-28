@@ -7,12 +7,9 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
-      unique: true,
     },
     password: {
       type: String,
-      required: true,
     },
     birthday: {
       type: Date,
@@ -27,7 +24,7 @@ const userSchema = new Schema(
     address: {
       type: String,
     },
-    phoneNumber: {
+    phone_number: {
       type: String,
     },
     role: {

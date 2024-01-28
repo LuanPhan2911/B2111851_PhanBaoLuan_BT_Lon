@@ -2,14 +2,10 @@ const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
 const { filterObjectKeys } = require("../../utils/helper");
 
-const UpdateUserRequest = (req, res, next) => {
+const UpdateStatusRentingBookRequest = (req, res, next) => {
   try {
     const rules = {
-      name: "required|string",
-      birthday: "date",
-      gender: "required|integer|in:0,1,2",
-      phone_number: "required|string",
-      address: "required|string",
+      status: "required|string|in:spending,renting,completed",
     };
 
     let validation = new Validator(req.body, rules);
@@ -25,4 +21,4 @@ const UpdateUserRequest = (req, res, next) => {
     next(error);
   }
 };
-module.exports = UpdateUserRequest;
+module.exports = UpdateStatusRentingBookRequest;

@@ -5,7 +5,10 @@ const UpdateUserRequest = require("../requests/user/UpdateUserRequest");
 const AuthMiddleware = require("../middleware/AuthMiddleware");
 const { upload } = require("../utils/fileStorage/upload");
 const HasSingleFileMiddleware = require("../middleware/HasSingleFileMiddleware");
-const StoreRentingBookRequest = require("../requests/user/StoreRentingBookRequest");
+const UserStoreRentingBookRequest = require("../requests/user/UserStoreRentingBookRequest");
+const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
+const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+const UserDestroyRentingBookRequest = require("../requests/user/UserDestroyRentingBookRequest");
 
 const router = Router();
 router.use(AuthMiddleware);
@@ -17,6 +20,21 @@ router.put(
   HasSingleFileMiddleware,
   UserController.updateAvatar
 );
-router.post("/rent_book", StoreRentingBookRequest, UserController.rentBook);
+router.post(
+  "/renting_books/create",
+  UserStoreRentingBookRequest,
+  UserController.rentBook
+);
+router.get(
+  "/renting_books",
+  isValidPageNumberMiddleware,
+  UserController.getRentingBooks
+);
+router.delete(
+  "/renting_books/:_id/delete",
+  isValidObjectIdMiddleWare,
+  UserDestroyRentingBookRequest,
+  UserController.destroyRentingBook
+);
 
 module.exports = router;

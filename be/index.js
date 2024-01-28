@@ -8,6 +8,7 @@ const genreRoute = require("./src/routes/genre");
 const bookRoute = require("./src/routes/book");
 const publisherRoute = require("./src/routes/publisher");
 const commentRoute = require("./src/routes/comment");
+const adminRoute = require("./src/routes/admin");
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
 app.use(express.static("public"));
@@ -20,6 +21,7 @@ app.use("/api/genres", genreRoute);
 app.use("/api/publishers", publisherRoute);
 app.use("/api/books", bookRoute);
 app.use("/api/comments", commentRoute);
+app.use("/api/admin", adminRoute);
 
 app.use((req, res, next) => {
   return next(ResourceNotFoundException);
