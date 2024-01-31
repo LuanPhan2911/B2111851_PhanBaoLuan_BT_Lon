@@ -28,7 +28,7 @@ const BookController = {
           ],
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: books,
         })
@@ -45,7 +45,7 @@ const BookController = {
         remain_quantity: req.validated.quantity,
         slug: slug(req.validated.name),
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: book,
         })
@@ -60,7 +60,7 @@ const BookController = {
       let book = await Book.findById(_id)
         .populate("genres", "-books")
         .populate("publisher", "-books");
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: book,
         })
@@ -82,7 +82,7 @@ const BookController = {
           returnDocument: "after",
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: book,
         })
@@ -110,7 +110,7 @@ const BookController = {
         }
       );
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Update Image Success",
         })
@@ -131,7 +131,7 @@ const BookController = {
         _id,
         _type: "Book",
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete Book Success",
         })

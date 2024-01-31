@@ -1,12 +1,8 @@
 const User = require("../models/User");
 const RentingBook = require("../models/RentingBook");
 const { remove, assetPath } = require("../utils/fileStorage/upload");
-const {
-  ResponseSuccess,
-  ResponseFailure,
-} = require("../utils/responses/JsonResponse");
+const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const moment = require("moment");
-const Book = require("../models/Book");
 const RentingBookService = require("../services/RentingBookService");
 
 const UserController = {
@@ -33,7 +29,7 @@ const UserController = {
           ],
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: rentingBooks,
         })
@@ -55,7 +51,7 @@ const UserController = {
         quantity,
       });
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: rentingBook,
           message: "Renting Book Success",
@@ -71,7 +67,7 @@ const UserController = {
       await RentingBookService.delete({
         _id,
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Renting Book Success",
         })
@@ -85,9 +81,13 @@ const UserController = {
     try {
       let _id = req.user._id;
       let user = await User.findById(_id, "-password");
-      return res.json({
-        data: user,
-      });
+      return res.status(200).json(
+        ResponseSuccess({
+          data: {
+            user,
+          },
+        })
+      );
     } catch (error) {
       next(error);
     }
@@ -101,7 +101,7 @@ const UserController = {
         projection: "-password",
       });
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: user,
         })
@@ -130,7 +130,7 @@ const UserController = {
         }
       );
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Update Image Success",
         })

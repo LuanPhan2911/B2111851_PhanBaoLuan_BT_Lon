@@ -7,7 +7,7 @@ const GenreController = {
   index: async (req, res, next) => {
     try {
       let genres = await Genre.find({}, "-books");
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: genres,
         })
@@ -23,7 +23,7 @@ const GenreController = {
         name,
         slug: slug(name),
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: genre,
         })
@@ -43,7 +43,7 @@ const GenreController = {
       });
       let genres = await Genre.insertMany(data);
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: genres,
         })
@@ -66,7 +66,7 @@ const GenreController = {
           },
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete Genre Success",
         })

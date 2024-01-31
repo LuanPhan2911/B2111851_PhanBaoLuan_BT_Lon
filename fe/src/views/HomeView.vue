@@ -1,3 +1,7 @@
-<script setup></script>
-
-<template>home page</template>
+<template><div></div></template>
+<script>
+export default {
+  name: "HomeView",
+  setup() {},
+};
+</script>

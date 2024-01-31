@@ -1,3 +1,41 @@
+<script>
+import { useUserSchema } from "@/hooks/useUserSchema";
+import { reactive } from "vue";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import AuthService from "@/services/AuthService";
+export default {
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
+  name: "RegisterView",
+  setup() {
+    const { getSchema } = useUserSchema();
+    const useSchema = getSchema([
+      "name",
+      "email",
+      "password",
+      "confirm_password",
+    ]);
+    const user = reactive({
+      name: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+    });
+    return { useSchema, user };
+  },
+  methods: {
+    async onRegister() {
+      try {
+        await AuthService.register(this.user);
+      } catch (error) {}
+    },
+  },
+};
+</script>
+
 <template>
   <div class="container">
     <div class="row justify-content-center">
@@ -7,31 +45,33 @@
             <h3 class="text-center text-primary">Đăng ký</h3>
           </div>
           <div class="card-body">
-            <form action="/register" method="post" id="register_form">
+            <Form @submit="onRegister" :validation-schema="useSchema">
               <div class="mb-3 row">
                 <label for="name" class="col-sm-3 col-form-label"
                   >Tên đăng nhập</label
                 >
                 <div class="col-sm-9">
-                  <input
+                  <Field
                     class="form-control"
                     name="name"
                     type="text"
                     id="name"
-                    value=""
+                    v-model="user.name"
                   />
+                  <ErrorMessage name="name" class="text-danger" />
                 </div>
               </div>
               <div class="mb-3 row">
                 <label for="email" class="col-sm-3 col-form-label">Email</label>
                 <div class="col-sm-9">
-                  <input
+                  <Field
                     class="form-control"
                     name="email"
                     type="email"
                     id="email"
-                    value=""
+                    v-model="user.email"
                   />
+                  <ErrorMessage name="email" class="text-danger" />
                 </div>
               </div>
               <div class="mb-3 row">
@@ -39,7 +79,13 @@
                   >Mật khẩu</label
                 >
                 <div class="col-sm-9">
-                  <input class="form-control" name="password" type="password" />
+                  <Field
+                    class="form-control"
+                    name="password"
+                    type="password"
+                    v-model="user.password"
+                  />
+                  <ErrorMessage name="password" class="text-danger" />
                 </div>
               </div>
               <div class="mb-3 row">
@@ -47,11 +93,13 @@
                   >Nhập lại mật khẩu</label
                 >
                 <div class="col-sm-9">
-                  <input
+                  <Field
                     class="form-control"
                     name="confirm_password"
                     type="password"
+                    v-model="user.confirm_password"
                   />
+                  <ErrorMessage name="confirm_password" class="text-danger" />
                 </div>
               </div>
               <div class="mb-3 d-flex justify-content-center">
@@ -69,7 +117,7 @@
                   </router-link>
                 </p>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       </div>

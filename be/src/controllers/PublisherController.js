@@ -7,7 +7,7 @@ const PublisherController = {
   index: async (req, res, next) => {
     try {
       let publishers = await Publisher.find({}, "-books");
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: publishers,
         })
@@ -23,7 +23,7 @@ const PublisherController = {
         name,
         slug: slug(name),
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: publisher,
         })
@@ -43,7 +43,7 @@ const PublisherController = {
       });
       let publishers = await Publisher.insertMany(data);
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: publishers,
         })
@@ -66,7 +66,7 @@ const PublisherController = {
           },
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete Success",
         })

@@ -30,7 +30,7 @@ const RentingBookController = {
           ],
         }
       );
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: rentingBooks,
         })
@@ -53,7 +53,7 @@ const RentingBookController = {
         path: "user",
         select: "id name",
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: rentingBook,
         })
@@ -71,7 +71,7 @@ const RentingBookController = {
         path: "user",
         select: "_id email avatar",
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: userRenting,
         })
@@ -95,7 +95,7 @@ const RentingBookController = {
           },
         });
       }
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: `Update success to status ${status}`,
         })
@@ -111,7 +111,7 @@ const RentingBookController = {
       await RentingBookService.delete({
         _id,
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete renting book success",
         })

@@ -21,7 +21,7 @@ const CommentController = {
         }
       );
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: comments,
         })
@@ -48,7 +48,7 @@ const CommentController = {
         }
       );
 
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           data: comments,
         })
@@ -76,7 +76,7 @@ const CommentController = {
           },
         });
       }
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: comment,
         })
@@ -87,14 +87,14 @@ const CommentController = {
   },
   show: async (req, res, next) => {
     try {
-      return res.json(ResponseSuccess({}));
+      return res.status(200).json(ResponseSuccess({}));
     } catch (error) {
       next(error);
     }
   },
   update: async (req, res, next) => {
     try {
-      return res.json(ResponseSuccess({}));
+      return res.status(200).json(ResponseSuccess({}));
     } catch (error) {
       next(error);
     }
@@ -114,7 +114,7 @@ const CommentController = {
           },
         });
       }
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete Comment Success",
         })
@@ -130,7 +130,7 @@ const CommentController = {
         _id,
         _type,
       });
-      return res.json(
+      return res.status(200).json(
         ResponseSuccess({
           message: "Delete All Comment Success",
         })
