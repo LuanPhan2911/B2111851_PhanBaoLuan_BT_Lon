@@ -12,7 +12,10 @@ const userSchema = new Schema(
       type: String,
     },
     birthday: {
-      type: Date,
+      type: Number,
+      min: 1900,
+      max: new Date().getFullYear(),
+      default: 2000,
     },
     gender: {
       type: Number,

@@ -14,12 +14,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginView,
-    beforeEnter: (to, from) => {
-      if (store.state.isAuth) {
-        return false;
-      }
-      return true;
-    },
   },
   {
     path: "/register",
@@ -39,26 +33,26 @@ const router = createRouter({
   history: createWebHistory(),
   routes: routes,
 });
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!localStorage.getItem("token")) {
-      next({
-        path: "/login",
-        params: { nextUrl: to.fullPath },
-      });
-    } else {
-      if (!store.state.isAuth) {
-        next({
-          path: "/login",
-          params: { nextUrl: to.fullPath },
-        });
-      } else {
-        next();
-      }
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (!localStorage.getItem("token")) {
+//       next({
+//         path: "/login",
+//         params: { nextUrl: to.fullPath },
+//       });
+//     } else {
+//       if (!store.state.isAuth) {
+//         next({
+//           path: "/login",
+//           params: { nextUrl: to.fullPath },
+//         });
+//       } else {
+//         next();
+//       }
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

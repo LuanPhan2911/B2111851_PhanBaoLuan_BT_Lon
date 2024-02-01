@@ -12,5 +12,21 @@ class UserService {
       return null;
     } catch (error) {}
   }
+  async update(data) {
+    try {
+      let res = await this._api.put("/edit", data);
+      if (res.success) {
+      }
+      return null;
+    } catch (error) {}
+  }
+  async updateImage(data) {
+    try {
+      let res = await this._api.put("/edit/avatar", data);
+      if (res.success) {
+      }
+      return null;
+    } catch (error) {}
+  }
 }
 export default new UserService();

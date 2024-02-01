@@ -38,7 +38,7 @@ export default {
           <router-link
             :to="{ name: 'updateUser' }"
             class="nav-link link-primary"
-            >Hồ sơ</router-link
+            >Thông tin tài khoản</router-link
           >
         </li>
         <li class="nav-item px-3">

@@ -19,6 +19,17 @@ export function useUserSchema() {
       .string()
       .required()
       .oneOf([yup.ref("password"), null], "Nhập lại mật khẩu không khớp"),
+    birthday: yup
+      .number()
+      .nullable()
+      .min(1900, "Năm sinh không không lệ")
+      .max(new Date().getFullYear(), "Năm sinh không hơp lệ"),
+    phone_number: yup
+      .string()
+      .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Số điện thoại không hợp lệ")
+      .required("Số điện thoại bắt buộc phải điền"),
+    gender: yup.number().oneOf([1, 0], "Giới tính không hợp lệ"),
+    address: yup.string().required("Địa chỉ bắt buộc phải điền"),
   };
   const userSchema = yup.object().shape(obj);
   const getSchema = (keys) => {

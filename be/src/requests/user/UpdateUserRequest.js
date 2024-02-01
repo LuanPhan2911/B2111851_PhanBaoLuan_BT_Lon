@@ -6,7 +6,7 @@ const UpdateUserRequest = (req, res, next) => {
   try {
     const rules = {
       name: "required|string",
-      birthday: "date",
+      birthday: `date|min:1900|max:${new Date().getFullYear()}`,
       gender: "required|integer|in:0,1,2",
       phone_number: "required|string",
       address: "required|string",

@@ -1,21 +1,24 @@
 <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import UserService from "@/services/UserService";
 import { filterObjectByKeys } from "@/helpers";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { useUserSchema } from "@/hooks/useUserSchema";
+import SelectImage from "../components/layouts/SelectImage.vue";
+
 export default {
   components: {
     Form,
     Field,
     ErrorMessage,
+    SelectImage,
   },
   name: "UpdateProfileView",
   setup() {
     const user = {
       name: "",
       email: "",
-      birthday: "",
+      birthday: 2000,
       gender: 1,
       avatar: "",
       address: "",
@@ -24,9 +27,16 @@ export default {
     const state = reactive({
       user,
     });
+    const imageUploaded = ref(null);
     const { getSchema } = useUserSchema();
-    const userSchema = getSchema(Object.keys(user));
-    return { state, userSchema };
+    const userSchema = getSchema([
+      "name",
+      "birthday",
+      "gender",
+      "address",
+      "phone_number",
+    ]);
+    return { state, userSchema, imageUploaded };
   },
 
   async created() {
@@ -42,7 +52,22 @@ export default {
     } catch (error) {}
   },
   methods: {
-    onUpdateUser() {},
+    async onUpdateUser() {
+      try {
+        await UserService.update(this.state.user);
+
+        if (this.imageUploaded) {
+          let formData = new FormData();
+          formData.append("avatar", this.imageUploaded);
+          await UserService.updateImage(formData);
+        }
+      } catch (error) {}
+    },
+    getImage(file) {
+      if (file) {
+        this.imageUploaded = file;
+      }
+    },
   },
 };
 </script>
@@ -52,34 +77,17 @@ export default {
       <div class="col-lg-9">
         <div class="card shadow">
           <div class="card-header">
-            <h3 class="text-center text-primary">Hồ sơ</h3>
+            <h3 class="text-center text-primary">Tài khoản</h3>
           </div>
           <div class="card-body">
             <Form @submit="onUpdateUser" :validation-schema="userSchema">
               <div class="row">
                 <div class="col-lg-4">
-                  <div class="mb-3">
-                    <label
-                      for="avatar"
-                      class="d-flex justify-content-center mb-3 cursor-pointer"
-                    >
-                      <img
-                        src=""
-                        class="rounded-circle img-thumbnail user-avatar"
-                      />
-                    </label>
-                    <div class="fst-italic fw-light text-center">
-                      Nhấn vào ảnh trên để cập nhật ảnh đại diện
-                    </div>
-                    <input
-                      class="form-control"
-                      name="avatar"
-                      type="file"
-                      id="avatar"
-                      accept="image/*"
-                      hidden
-                    />
-                  </div>
+                  <select-image
+                    imgShape="rounded-circle"
+                    :imgUrl="state.user.avatar"
+                    @getImage="getImage"
+                  />
                 </div>
                 <div class="col-lg-8">
                   <div class="mb-3 row">
@@ -94,6 +102,7 @@ export default {
                         id="name"
                         v-model="state.user.name"
                       />
+                      <ErrorMessage name="name" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -102,11 +111,12 @@ export default {
                     >
                     <div class="col-sm-9">
                       <Field
-                        class="form-control"
-                        name="birthday"
-                        type="date"
                         v-model="state.user.birthday"
-                      />
+                        name="birthday"
+                        type="number"
+                        class="form-control"
+                      ></Field>
+                      <ErrorMessage name="birthday" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -123,6 +133,7 @@ export default {
                         <option :value="1">Nam</option>
                         <option :value="0">Nữ</option>
                       </select>
+                      <ErrorMessage name="gender" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -135,6 +146,7 @@ export default {
                         name="phone_number"
                         v-model="state.user.phone_number"
                       />
+                      <ErrorMessage name="phone_number" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -142,11 +154,13 @@ export default {
                       >Địa chỉ</label
                     >
                     <div class="col-sm-9">
-                      <textarea
+                      <Field
+                        as="textarea"
                         class="form-control"
                         name="address"
                         v-model="state.user.address"
-                      ></textarea>
+                      ></Field>
+                      <ErrorMessage name="address" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -156,10 +170,10 @@ export default {
                     <div class="col-sm-9">
                       <input
                         class="form-control"
-                        id="email"
                         disabled
                         :value="state.user.email"
                       />
+                      <ErrorMessage name="email" class="text-danger" />
                     </div>
                   </div>
                   <div class="mb-3 d-flex justify-content-center">
@@ -176,8 +190,8 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
-.user-avatar {
+<style>
+.img-size {
   width: 200px;
   height: 200px;
   background-color: blueviolet;
