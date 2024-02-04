@@ -11,19 +11,16 @@ export default {
     const imageUrl = computed(() => {
       return props.imgUrl ? asset(props.imgUrl) : defaultAvatar;
     });
-
-    return { emit, imageUrl, previewUrl, imgElement };
-  },
-  methods: {
-    previewImage(event) {
+    const previewImage = (event) => {
       let file = event?.target?.files[0];
-      this.emit("getImage", file);
+      emit("getImage", file);
       if (this.previewUrl) {
         URL.revokeObjectURL(this.previewUrl);
       }
       this.previewUrl = URL.createObjectURL(file);
       this.imgElement.src = this.previewUrl;
-    },
+    };
+    return { imageUrl, previewUrl, imgElement, previewImage };
   },
 };
 </script>

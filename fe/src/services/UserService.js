@@ -12,6 +12,17 @@ class UserService {
       return null;
     } catch (error) {}
   }
+  async getAll({ query }) {
+    try {
+      let res = await this._api.get("/", {
+        params: query,
+      });
+      if (res.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
   async update(data) {
     try {
       let res = await this._api.put("/edit", data);

@@ -77,6 +77,26 @@ const UserController = {
     }
   },
 
+  index: async (req, res, next) => {
+    let { page } = req.query;
+    try {
+      let users = await User.paginate(
+        { role: { $nin: ["admin"] } },
+        {
+          limit: 10,
+          page,
+          projection: "-password",
+        }
+      );
+      return res.status(200).json(
+        ResponseSuccess({
+          data: users,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
   edit: async (req, res, next) => {
     try {
       let _id = req.user._id;

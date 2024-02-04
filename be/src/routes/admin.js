@@ -5,6 +5,7 @@ const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddlewa
 const UpdateStatusRentingBookRequest = require("../requests/rentingBook/UpdateStatusRentingBookRequest");
 const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
 const AdminStoreRentingBookRequest = require("../requests/rentingBook/AdminStoreRentingBookRequest");
+const UserController = require("../controllers/UserController");
 
 const router = Router();
 router.use(AuthAdminMiddleware);

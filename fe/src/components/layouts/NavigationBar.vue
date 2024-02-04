@@ -1,23 +1,19 @@
 <script>
 import { useAuth } from "../../hooks/useAuth";
+import Offcanvas from "./Offcanvas.vue";
 export default {
+  components: { Offcanvas },
   setup() {
     const { isAuth, user, logout } = useAuth();
+
     return { isAuth, user, logout };
   },
 };
 </script>
 <template>
-  <div class="offcanvas offcanvas-end" id="offcanvas">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title text-primary">Thư viện sách</h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"
-      ></button>
-    </div>
-    <div class="offcanvas-body">
+  <offcanvas>
+    <template #title>Thư viện sách </template>
+    <template #body>
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" v-if="isAuth">
         <li class="nav-item my-2">
           <div
@@ -42,7 +38,9 @@ export default {
           >
         </li>
         <li class="nav-item px-3">
-          <a class="nav-link link-danger pointer" @click="logout">Thoát</a>
+          <button class="nav-link link-danger pointer" @click="logout">
+            Thoát
+          </button>
         </li>
       </ul>
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" v-else>
@@ -57,6 +55,6 @@ export default {
           >
         </li>
       </ul>
-    </div>
-  </div>
+    </template>
+  </offcanvas>
 </template>

@@ -1,14 +1,9 @@
 <template>
-  <div class="container">
-    <app-bar />
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 <script>
-import AppBar from "./components/layouts/AppBar.vue";
 import AuthService from "@/services/AuthService";
 export default {
-  components: { AppBar },
   async created() {
     try {
       await AuthService.getUser();

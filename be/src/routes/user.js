@@ -9,6 +9,7 @@ const UserStoreRentingBookRequest = require("../requests/user/UserStoreRentingBo
 const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
 const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
 const UserDestroyRentingBookRequest = require("../requests/user/UserDestroyRentingBookRequest");
+const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
 
 const router = Router();
 router.use(AuthMiddleware);
@@ -35,6 +36,12 @@ router.delete(
   isValidObjectIdMiddleWare,
   UserDestroyRentingBookRequest,
   UserController.destroyRentingBook
+);
+router.get(
+  "/",
+  AuthAdminMiddleware,
+  isValidPageNumberMiddleware,
+  UserController.index
 );
 
 module.exports = router;

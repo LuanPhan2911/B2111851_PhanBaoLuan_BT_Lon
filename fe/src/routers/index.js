@@ -3,31 +3,40 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import UpdateProfileView from "@/views/UpdateProfileView.vue";
+import UserLayout from "@/components/layouts/UserLayout.vue";
 import store from "@/stores/store";
+import admin from "./admin";
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    component: UserLayout,
+    children: [
+      {
+        path: "",
+        name: "home",
+        component: HomeView,
+      },
+      {
+        path: "login",
+        name: "login",
+        component: LoginView,
+      },
+      {
+        path: "register",
+        name: "register",
+        component: RegisterView,
+      },
+      {
+        path: "profile",
+        name: "updateUser",
+        component: UpdateProfileView,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ],
   },
-  {
-    path: "/login",
-    name: "login",
-    component: LoginView,
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: RegisterView,
-  },
-  {
-    path: "/profile",
-    name: "updateUser",
-    component: UpdateProfileView,
-    meta: {
-      requiresAuth: true,
-    },
-  },
+  ...admin,
 ];
 const router = createRouter({
   history: createWebHistory(),
