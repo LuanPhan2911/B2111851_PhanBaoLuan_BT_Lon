@@ -1,5 +1,4 @@
-const Genre = require("../models/Genre");
-const Book = require("../models/Book");
+const { Genre, Book } = require("../models");
 const slug = require("slug");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 

@@ -1,11 +1,7 @@
-const Book = require("../models/Book");
-const CommentService = require("../services/CommentSerivce");
+const { Book } = require("../models");
+const { CommentService } = require("../services");
 const { assetPath, remove } = require("../utils/fileStorage/upload");
-
-const {
-  ResponseSuccess,
-  ResponseFailure,
-} = require("../utils/responses/JsonResponse");
+const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const slug = require("slug");
 const BookController = {
   index: async (req, res, next) => {

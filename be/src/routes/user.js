@@ -1,47 +1,55 @@
 const { Router } = require("express");
 
-const UserController = require("../controllers/UserController");
-const UpdateUserRequest = require("../requests/user/UpdateUserRequest");
-const AuthMiddleware = require("../middleware/AuthMiddleware");
-const { upload } = require("../utils/fileStorage/upload");
-const HasSingleFileMiddleware = require("../middleware/HasSingleFileMiddleware");
-const UserStoreRentingBookRequest = require("../requests/user/UserStoreRentingBookRequest");
-const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
-const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
-const UserDestroyRentingBookRequest = require("../requests/user/UserDestroyRentingBookRequest");
-const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
+const {
+  index,
+  edit,
+  destroyRentingBook,
+  getRentingBooks,
+  rentBook,
+  update,
+  updateAvatar,
+  updateBlock,
+} = require("../controllers/UserController");
 
+const { upload } = require("../utils/fileStorage/upload");
+const {
+  UpdateBlockUserRequest,
+  UpdateUserRequest,
+  UserDestroyRentingBookRequest,
+  UserStoreRentingBookRequest,
+} = require("../requests/user");
+const {
+  AuthAdminMiddleware,
+  IsValidObjectIdMiddleWare,
+  IsValidPageNumberMiddleWare,
+  HasSingleFileMiddleware,
+  AuthMiddleware,
+} = require("../middleware");
 const router = Router();
 router.use(AuthMiddleware);
-router.get("/edit", UserController.edit);
-router.put("/edit", UpdateUserRequest, UserController.update);
+router.get("/edit", edit);
+router.put("/edit", UpdateUserRequest, update);
 router.put(
   "/edit/avatar",
   upload({ dir: "users" }).single("avatar"),
   HasSingleFileMiddleware,
-  UserController.updateAvatar
+  updateAvatar
 );
-router.post(
-  "/renting_books/create",
-  UserStoreRentingBookRequest,
-  UserController.rentBook
-);
-router.get(
-  "/renting_books",
-  isValidPageNumberMiddleware,
-  UserController.getRentingBooks
-);
+router.post("/renting_books/create", UserStoreRentingBookRequest, rentBook);
+router.get("/renting_books", IsValidPageNumberMiddleWare, getRentingBooks);
 router.delete(
   "/renting_books/:_id/delete",
-  isValidObjectIdMiddleWare,
+  IsValidObjectIdMiddleWare,
   UserDestroyRentingBookRequest,
-  UserController.destroyRentingBook
+  destroyRentingBook
 );
-router.get(
-  "/",
+router.get("/", AuthAdminMiddleware, IsValidPageNumberMiddleWare, index);
+router.put(
+  "/:_id/blocking",
   AuthAdminMiddleware,
-  isValidPageNumberMiddleware,
-  UserController.index
+  IsValidObjectIdMiddleWare,
+  UpdateBlockUserRequest,
+  updateBlock
 );
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const RentingBook = require("../../models/RentingBook");
+const { RentingBook } = require("../../models");
 const ApiError = require("../../utils/ApiError");
 
 const DestroyBookRequest = async (req, res, next) => {

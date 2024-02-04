@@ -1,7 +1,5 @@
-const Book = require("../models/Book");
-const RentingBook = require("../models/RentingBook");
-const User = require("../models/User");
-const RentingBookService = require("../services/RentingBookService");
+const { RentingBook, Book, User } = require("../models");
+const { RentingBookService } = require("../services");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const moment = require("moment");
 const RentingBookController = {

@@ -1,7 +1,6 @@
-const { model } = require("mongoose");
-const Comment = require("../models/Comment");
+const { Comment } = require("../models");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
-const CommentService = require("../services/CommentSerivce");
+const { CommentService } = require("../services");
 
 const CommentController = {
   index: async (req, res, next) => {

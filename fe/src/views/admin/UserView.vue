@@ -108,7 +108,9 @@ export default {
           <td>{{ user.gender }}</td>
           <td>{{ user.createdAt }}</td>
           <td>
-            <button class="btn btn-warning">Block</button>
+            <button class="btn btn-warning">
+              <i class="bi bi-lock-fill"></i>
+            </button>
           </td>
         </tr>
       </tbody>

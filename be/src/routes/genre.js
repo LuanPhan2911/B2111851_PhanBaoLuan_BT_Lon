@@ -1,21 +1,28 @@
 const { Router } = require("express");
-const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
-const StoreGenreRequest = require("../requests/genre/StoreGenreRequest");
-const GenreController = require("../controllers/GenreController");
-const StoreManyGenreRequest = require("../requests/genre/StoreManyGenreRequest");
-const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+
+const {
+  destroy,
+  index,
+  store,
+  storeMany,
+} = require("../controllers/GenreController");
+const {
+  StoreGenreRequest,
+  StoreManyGenreRequest,
+} = require("../requests/genre");
+
+const {
+  AuthAdminMiddleware,
+  IsValidObjectIdMiddleWare,
+} = require("../middleware");
 
 const router = Router();
 
-router.get("/", GenreController.index);
+router.get("/", index);
 
 router.use(AuthAdminMiddleware);
-router.post("/create", StoreGenreRequest, GenreController.store);
-router.post("/create_many", StoreManyGenreRequest, GenreController.storeMany);
-router.delete(
-  "/:_id/delete",
-  isValidObjectIdMiddleWare,
-  GenreController.destroy
-);
+router.post("/create", StoreGenreRequest, store);
+router.post("/create_many", StoreManyGenreRequest, storeMany);
+router.delete("/:_id/delete", IsValidObjectIdMiddleWare, destroy);
 
 module.exports = router;

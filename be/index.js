@@ -2,26 +2,28 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
-const authRoute = require("./src/routes/auth");
-const userRoute = require("./src/routes/user");
-const genreRoute = require("./src/routes/genre");
-const bookRoute = require("./src/routes/book");
-const publisherRoute = require("./src/routes/publisher");
-const commentRoute = require("./src/routes/comment");
-const adminRoute = require("./src/routes/admin");
+const {
+  admin,
+  auth,
+  book,
+  comment,
+  genre,
+  publisher,
+  user,
+} = require("./src/routes");
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
 app.use(express.static("public"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use("/api", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/genres", genreRoute);
-app.use("/api/publishers", publisherRoute);
-app.use("/api/books", bookRoute);
-app.use("/api/comments", commentRoute);
-app.use("/api/admin", adminRoute);
+app.use("/api", auth);
+app.use("/api/users", user);
+app.use("/api/genres", genre);
+app.use("/api/publishers", publisher);
+app.use("/api/books", book);
+app.use("/api/comments", comment);
+app.use("/api/admin", admin);
 
 app.use((req, res, next) => {
   return next(ResourceNotFoundException);

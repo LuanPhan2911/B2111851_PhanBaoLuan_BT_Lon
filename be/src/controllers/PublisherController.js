@@ -1,7 +1,6 @@
-const Publisher = require("../models/Publisher");
+const { Publisher, Book } = require("../models");
 const slug = require("slug");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
-const Book = require("../models/Book");
 
 const PublisherController = {
   index: async (req, res, next) => {

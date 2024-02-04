@@ -1,31 +1,34 @@
 const { Router } = require("express");
-const AuthMiddleware = require("../middleware/AuthMiddleware");
-const CommentController = require("../controllers/CommentController");
-const StoreCommentRequest = require("../requests/comment/StoreCommentRequest");
-const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
-const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+
+const {
+  destroy,
+  destroyAll,
+  getReplies,
+  index,
+  store,
+} = require("../controllers/CommentController");
+
+const {
+  AuthMiddleware,
+  IsValidObjectIdMiddleWare,
+  IsValidPageNumberMiddleWare,
+} = require("../middleware");
 const DestroyCommentRequest = require("../requests/comment/DestroyCommentRequest");
+const StoreCommentRequest = require("../requests/comment/StoreCommentRequest");
 
 const router = Router();
 
-router.get("/", isValidPageNumberMiddleware, CommentController.index);
+router.get("/", IsValidPageNumberMiddleWare, index);
 router.get(
   "/:_id/replies",
-  isValidPageNumberMiddleware,
-  CommentController.getReplies
+  IsValidPageNumberMiddleWare,
+  IsValidObjectIdMiddleWare,
+  getReplies
 );
 
 router.use(AuthMiddleware);
-router.post("/create", StoreCommentRequest, CommentController.store);
-router.delete(
-  "/:_id/delete",
-  isValidObjectIdMiddleWare,
-  CommentController.destroy
-);
-router.delete(
-  "/delete_all",
-  DestroyCommentRequest,
-  CommentController.destroyAll
-);
+router.post("/create", StoreCommentRequest, store);
+router.delete("/:_id/delete", IsValidObjectIdMiddleWare, destroy);
+router.delete("/delete_all", DestroyCommentRequest, destroyAll);
 
 module.exports = router;

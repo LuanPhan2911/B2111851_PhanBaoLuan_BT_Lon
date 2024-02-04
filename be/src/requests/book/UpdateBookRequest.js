@@ -1,7 +1,6 @@
 const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
-const PublisherService = require("../../services/PublisherService");
-const GenreService = require("../../services/GenreService");
+const { PublisherService, GenreService } = require("../../services");
 const { filterObjectKeys } = require("../../utils/helper");
 
 const UpdateBookRequest = (req, res, next) => {

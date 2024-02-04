@@ -1,40 +1,47 @@
 const { Router } = require("express");
-const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
-const StoreBookRequest = require("../requests/book/StoreBookRequest");
-const BookController = require("../controllers/BookController");
-const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+const {
+  AuthAdminMiddleware,
+  HasSingleFileMiddleware,
+  IsValidObjectIdMiddleWare,
+  IsValidPageNumberMiddleWare,
+} = require("../middleware");
+const {
+  destroy,
+  index,
+  show,
+  store,
+  update,
+  updateImage,
+} = require("../controllers/BookController");
+
 const { upload } = require("../utils/fileStorage/upload");
-const HasSingleFileMiddleware = require("../middleware/HasSingleFileMiddleware");
-const isValidPageNumberMiddleware = require("../middleware/IsValidPageNumberMiddleWare");
-const UpdateBookRequest = require("../requests/book/UpdateBookRequest");
-const DestroyBookRequest = require("../requests/book/DestroyBookRequest");
+const {
+  DestroyBookRequest,
+  StoreBookRequest,
+  UpdateBookRequest,
+} = require("../requests/book");
 const router = Router();
 
-router.get("/:_id/show", isValidObjectIdMiddleWare, BookController.show);
-router.get("/", isValidPageNumberMiddleware, BookController.index);
+router.get("/:_id/show", IsValidObjectIdMiddleWare, show);
+router.get("/", IsValidPageNumberMiddleWare, index);
 
 router.use(AuthAdminMiddleware);
-router.post("/create", StoreBookRequest, BookController.store);
-router.put(
-  "/:_id/edit",
-  isValidObjectIdMiddleWare,
-  UpdateBookRequest,
-  BookController.update
-);
+router.post("/create", StoreBookRequest, store);
+router.put("/:_id/edit", IsValidObjectIdMiddleWare, UpdateBookRequest, update);
 router.put(
   "/:_id/edit/image",
-  isValidObjectIdMiddleWare,
+  IsValidObjectIdMiddleWare,
   upload({
     dir: "books",
   }).single("image"),
   HasSingleFileMiddleware,
-  BookController.updateImage
+  updateImage
 );
 router.delete(
   "/:_id/delete",
-  isValidObjectIdMiddleWare,
+  IsValidObjectIdMiddleWare,
   DestroyBookRequest,
-  BookController.destroy
+  destroy
 );
 
 module.exports = router;

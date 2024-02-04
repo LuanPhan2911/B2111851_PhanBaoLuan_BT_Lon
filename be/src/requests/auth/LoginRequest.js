@@ -1,6 +1,6 @@
 const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
-const UserService = require("../../services/UserService");
+const { UserService } = require("../../services");
 const LoginRequest = (req, res, next) => {
   try {
     Validator.registerAsync(

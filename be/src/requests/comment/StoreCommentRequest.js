@@ -1,7 +1,7 @@
 const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
 const { filterObjectKeys } = require("../../utils/helper");
-const CommentService = require("../../services/CommentSerivce");
+const { CommentService } = require("../../services");
 
 const StoreCommentRequest = (req, res, next) => {
   try {

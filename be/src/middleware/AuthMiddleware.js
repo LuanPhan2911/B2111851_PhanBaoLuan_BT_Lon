@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const { UnAuthenticateException } = require("../utils/exceptions/handler");
 
 const AuthService = require("../services/AuthService");

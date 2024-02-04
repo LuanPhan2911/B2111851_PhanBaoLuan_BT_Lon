@@ -1,9 +1,9 @@
 const Validator = require("validatorjs");
 const { FailValidateException } = require("../../utils/exceptions/handler");
 const { filterObjectKeys } = require("../../utils/helper");
-const BookService = require("../../services/BookService");
+const { BookService } = require("../../services");
 
-const AdminStoreRentingBookRequest = (req, res, next) => {
+const StoreRentingBookRequest = (req, res, next) => {
   try {
     Validator.registerAsync(
       "book_id_valid",
@@ -65,4 +65,4 @@ const AdminStoreRentingBookRequest = (req, res, next) => {
     next(error);
   }
 };
-module.exports = AdminStoreRentingBookRequest;
+module.exports = StoreRentingBookRequest;

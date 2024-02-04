@@ -36,6 +36,10 @@ const userSchema = new Schema(
       enum: ["admin", "reader"],
       default: "reader",
     },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

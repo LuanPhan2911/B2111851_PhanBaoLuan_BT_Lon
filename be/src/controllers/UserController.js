@@ -1,9 +1,8 @@
-const User = require("../models/User");
-const RentingBook = require("../models/RentingBook");
+const { User, RentingBook } = require("../models");
 const { remove, assetPath } = require("../utils/fileStorage/upload");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const moment = require("moment");
-const RentingBookService = require("../services/RentingBookService");
+const { RentingBookService } = require("../services");
 
 const UserController = {
   getRentingBooks: async (req, res, next) => {
@@ -153,6 +152,33 @@ const UserController = {
       return res.status(200).json(
         ResponseSuccess({
           message: "Update Image Success",
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
+  updateBlock: async (req, res, next) => {
+    try {
+      let { _id } = req.params;
+      let { status } = req.body;
+      await User.findByIdAndUpdate(
+        _id,
+        {
+          deletedAt: status === "block" ? new Date() : null,
+        },
+        {
+          returnDocument: "after",
+          projection: "-password",
+        }
+      );
+
+      return res.status(200).json(
+        ResponseSuccess({
+          message: "Update DeletedAt User Success",
+          data: {
+            status,
+          },
         })
       );
     } catch (error) {

@@ -1,25 +1,28 @@
 const { Router } = require("express");
-const AuthAdminMiddleware = require("../middleware/AuthAdminMiddleware");
-const PublisherController = require("../controllers/PublisherController");
-const StorePublisherRequest = require("../requests/publisher/StorePublisherRequest");
-const StoreManyPublisherRequest = require("../requests/publisher/StoreManyPublisherRequest");
-const isValidObjectIdMiddleWare = require("../middleware/IsValidObjectIdMiddleware");
+const {
+  destroy,
+  index,
+  store,
+  storeMany,
+} = require("../controllers/PublisherController");
+
+const {
+  StoreManyPublisherRequest,
+  StorePublisherRequest,
+} = require("../requests/publisher");
+
+const {
+  AuthAdminMiddleware,
+  IsValidObjectIdMiddleWare,
+} = require("../middleware");
 
 const router = Router();
 
-router.get("/", PublisherController.index);
+router.get("/", index);
 
 router.use(AuthAdminMiddleware);
-router.post("/create", StorePublisherRequest, PublisherController.store);
-router.post(
-  "/create_many",
-  StoreManyPublisherRequest,
-  PublisherController.storeMany
-);
-router.delete(
-  "/:_id/delete",
-  isValidObjectIdMiddleWare,
-  PublisherController.destroy
-);
+router.post("/create", StorePublisherRequest, store);
+router.post("/create_many", StoreManyPublisherRequest, storeMany);
+router.delete("/:_id/delete", IsValidObjectIdMiddleWare, destroy);
 
 module.exports = router;

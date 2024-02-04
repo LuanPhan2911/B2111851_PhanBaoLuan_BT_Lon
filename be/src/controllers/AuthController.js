@@ -1,7 +1,6 @@
-const User = require("../models/User");
-const ApiError = require("../utils/ApiError");
+const { User } = require("../models");
 const bcrypt = require("bcrypt");
-const AuthService = require("../services/AuthService");
+const { AuthService } = require("../services");
 const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const {
   UserPasswordMismatchException,
