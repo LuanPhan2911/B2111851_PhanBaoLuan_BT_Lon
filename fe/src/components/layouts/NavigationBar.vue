@@ -5,8 +5,12 @@ export default {
   components: { Offcanvas },
   setup() {
     const { isAuth, user, logout } = useAuth();
-
-    return { isAuth, user, logout };
+    const onLogout = () => {
+      if (confirm("Bạn muốn đăng xuất tài khoản?")) {
+        logout();
+      }
+    };
+    return { isAuth, user, onLogout };
   },
 };
 </script>
@@ -38,7 +42,7 @@ export default {
           >
         </li>
         <li class="nav-item px-3">
-          <button class="nav-link link-danger pointer" @click="logout">
+          <button class="nav-link link-danger pointer" @click="onLogout">
             Thoát
           </button>
         </li>

@@ -3,7 +3,12 @@ import { useAuth } from "../../../hooks/useAuth";
 export default {
   setup() {
     const { logout } = useAuth();
-    return { logout };
+    const onLogout = () => {
+      if (confirm("Do you want to sign out?")) {
+        logout();
+      }
+    };
+    return { onLogout };
   },
 };
 </script>
@@ -68,7 +73,7 @@ export default {
           </router-link>
         </li>
         <li class="nav-item">
-          <button class="nav-link align-middle px-0 pointer" @click="logout">
+          <button class="nav-link align-middle px-0 pointer" @click="onLogout">
             <i class="fs-4 bi-box-arrow-left"></i>
             <span class="ms-1 d-none d-sm-inline">Sign out</span>
           </button>

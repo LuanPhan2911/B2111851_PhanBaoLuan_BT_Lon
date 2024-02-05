@@ -12,7 +12,9 @@ class AuthService {
         let { token, user } = res.data;
         localStorage.setItem("token", `Bearer ${token}`);
         store.dispatch("login", user);
+        return true;
       }
+      return false;
     } catch (error) {}
   }
   async register(data) {
@@ -22,7 +24,9 @@ class AuthService {
         let { token, user } = res.data;
         localStorage.setItem("token", `Bearer ${token}`);
         store.dispatch("login", user);
+        return true;
       }
+      return false;
     } catch (error) {}
   }
   async getUser() {
@@ -31,7 +35,9 @@ class AuthService {
       if (res?.success) {
         let { user } = res.data;
         store.dispatch("login", user);
+        return true;
       }
+      return false;
     } catch (error) {
       store.dispatch("logout");
     }
@@ -41,7 +47,9 @@ class AuthService {
       let res = await this.api.get("/logout");
       if (res?.success) {
         store.dispatch("logout");
+        return true;
       }
+      return false;
     } catch (error) {
       store.dispatch("logout");
     }

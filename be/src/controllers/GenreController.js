@@ -5,7 +5,11 @@ const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const GenreController = {
   index: async (req, res, next) => {
     try {
-      let genres = await Genre.find({}, "-books");
+      let genres = await Genre.find({}, "-books", {
+        sort: {
+          createdAt: -1,
+        },
+      });
       return res.status(200).json(
         ResponseSuccess({
           data: genres,
@@ -41,7 +45,6 @@ const GenreController = {
         };
       });
       let genres = await Genre.insertMany(data);
-
       return res.status(200).json(
         ResponseSuccess({
           data: genres,

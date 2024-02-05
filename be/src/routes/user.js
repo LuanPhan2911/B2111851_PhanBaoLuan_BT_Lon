@@ -45,7 +45,7 @@ router.delete(
 );
 router.get("/", AuthAdminMiddleware, IsValidPageNumberMiddleWare, index);
 router.put(
-  "/:_id/blocking",
+  "/:_id/locking",
   AuthAdminMiddleware,
   IsValidObjectIdMiddleWare,
   UpdateBlockUserRequest,

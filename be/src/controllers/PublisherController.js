@@ -5,7 +5,11 @@ const { ResponseSuccess } = require("../utils/responses/JsonResponse");
 const PublisherController = {
   index: async (req, res, next) => {
     try {
-      let publishers = await Publisher.find({}, "-books");
+      let publishers = await Publisher.find({}, "-books", {
+        sort: {
+          createdAt: -1,
+        },
+      });
       return res.status(200).json(
         ResponseSuccess({
           data: publishers,

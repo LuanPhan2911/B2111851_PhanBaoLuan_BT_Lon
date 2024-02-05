@@ -26,8 +26,10 @@ export default {
   methods: {
     async onLogin() {
       try {
-        await AuthService.login(this.user);
-        this.$router.push({ name: "home" });
+        let data = await AuthService.login(this.user);
+        if (data) {
+          this.$router.push({ name: "home" });
+        }
       } catch (error) {
         console.log(error);
       }

@@ -85,6 +85,9 @@ const UserController = {
           limit: 10,
           page,
           projection: "-password",
+          sort: {
+            deletedAt: -1,
+          },
         }
       );
       return res.status(200).json(
@@ -165,7 +168,7 @@ const UserController = {
       await User.findByIdAndUpdate(
         _id,
         {
-          deletedAt: status === "block" ? new Date() : null,
+          deletedAt: status === "lock" ? new Date() : null,
         },
         {
           returnDocument: "after",

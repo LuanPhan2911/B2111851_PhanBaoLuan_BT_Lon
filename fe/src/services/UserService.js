@@ -39,5 +39,14 @@ class UserService {
       return null;
     } catch (error) {}
   }
+  async updateLockUser({ _id, data }) {
+    try {
+      let res = await this._api.put(`/${_id}/locking`, data);
+      if (res.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
 }
 export default new UserService();

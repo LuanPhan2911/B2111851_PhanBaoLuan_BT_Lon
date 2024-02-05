@@ -5,7 +5,7 @@ const { filterObjectKeys } = require("../../utils/helper");
 const UpdateBlockUserRequest = (req, res, next) => {
   try {
     const rules = {
-      status: "required|string|in:block,unblock",
+      status: "required|string|in:lock,unlock",
     };
 
     let validation = new Validator(req.body, rules);

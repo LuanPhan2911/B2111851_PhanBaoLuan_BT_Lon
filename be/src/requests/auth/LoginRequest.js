@@ -6,9 +6,14 @@ const LoginRequest = (req, res, next) => {
     Validator.registerAsync(
       "email_exist",
       async function (email, attribute, req, passes) {
-        return (await UserService.emailExist(email))
-          ? passes()
-          : passes(false, "The email field is not exist ");
+        let user = await UserService.emailExist(email);
+        if (!user) {
+          passes(false, "The email field is not exist ");
+        } else if (user?.deletedAt) {
+          passes(false, " Your account has been locked!");
+        } else {
+          passes();
+        }
       }
     );
     const rules = {

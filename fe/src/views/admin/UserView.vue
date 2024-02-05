@@ -23,43 +23,35 @@ export default {
     });
     const route = useRoute();
     const currentPage = computed(() => route.query?.page || 1);
-    watch(currentPage, async (newPage) => {
+    const fetchUsers = async ({ page }) => {
       try {
         let data = await UserSerVice.getAll({
           query: {
-            page: newPage,
+            page,
           },
         });
         if (data) {
           userPaginate.value = data;
         }
       } catch (error) {}
+    };
+    watch(currentPage, async (newPage) => {
+      await fetchUsers({ page: newPage });
     });
     onMounted(async () => {
       document.title = "Admin - Manage User";
-      try {
-        let data = await UserSerVice.getAll({
-          query: {
-            page: currentPage.value,
-          },
-        });
-        if (data) {
-          userPaginate.value = data;
-        }
-      } catch (error) {}
+      await fetchUsers({ page: currentPage.value });
     });
     const users = computed(() => {
-      if (userPaginate.value?.docs?.length > 0) {
-        return userPaginate.value?.docs.map((item) => {
-          return {
-            ...item,
-            avatar: item.avatar ? asset(item.avatar) : defaultAvatar,
-            createdAt: moment(item.createdAt).format("DD-MM-YYYY"),
-            gender: item.gender === 1 ? "Male" : "Female",
-          };
-        });
-      }
-      return [];
+      return userPaginate.value?.docs?.map((item) => {
+        return {
+          ...item,
+          avatar: item.avatar ? asset(item.avatar) : defaultAvatar,
+          createdAt: moment(item.createdAt).format("DD-MM-YYYY"),
+          gender: item.gender === 1 ? "Male" : "Female",
+          deletedAt: item.deletedAt ? true : false,
+        };
+      });
     });
     const paginate = computed(() => {
       let { page, totalPages, hasNextPage, hasPrevPage, prevPage, nextPage } =
@@ -73,8 +65,23 @@ export default {
         nextPage,
       };
     });
+    const onLockUser = async ({ status, _id }) => {
+      if (confirm("Do you want to execute this action?")) {
+        try {
+          let res = await UserSerVice.updateLockUser({
+            _id,
+            data: {
+              status,
+            },
+          });
 
-    return { users, paginate };
+          if (res) {
+            await fetchUsers({ page: currentPage.value });
+          }
+        } catch (error) {}
+      }
+    };
+    return { users, paginate, onLockUser };
   },
 };
 </script>
@@ -84,7 +91,7 @@ export default {
       <caption>
         <h3 class="text-primary">All Users</h3>
       </caption>
-      <thead>
+      <thead class="table-info">
         <tr>
           <th>#</th>
           <th>Avatar</th>
@@ -97,7 +104,11 @@ export default {
         </tr>
       </thead>
       <tbody>
-        <tr class="" v-for="user in users" :key="user._id">
+        <tr
+          :class="{ 'table-warning': user.deletedAt }"
+          v-for="user in users"
+          :key="user._id"
+        >
           <td>{{ user._id }}</td>
           <td>
             <img :src="user.avatar" alt="" class="avatar rounded-circle" />
@@ -108,7 +119,30 @@ export default {
           <td>{{ user.gender }}</td>
           <td>{{ user.createdAt }}</td>
           <td>
-            <button class="btn btn-warning">
+            <button
+              class="btn btn-success"
+              v-if="user.deletedAt"
+              @click="
+                () =>
+                  onLockUser({
+                    status: 'unlock',
+                    _id: user._id,
+                  })
+              "
+            >
+              <i class="bi bi-unlock"></i>
+            </button>
+            <button
+              class="btn btn-warning"
+              v-else
+              @click="
+                () =>
+                  onLockUser({
+                    status: 'lock',
+                    _id: user._id,
+                  })
+              "
+            >
               <i class="bi bi-lock-fill"></i>
             </button>
           </td>
