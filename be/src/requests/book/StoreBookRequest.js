@@ -26,7 +26,8 @@ const StoreBookRequest = (req, res, next) => {
       name: "required|string",
       description: "required|string",
       author_name: "required|string",
-      quantity: "required|integer",
+      total_quantity: "required|integer",
+      remain_quantity: "required|integer",
       publisher: {
         _id: "required|publisher_exist",
       },

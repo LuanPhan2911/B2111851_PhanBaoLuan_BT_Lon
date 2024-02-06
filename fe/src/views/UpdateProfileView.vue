@@ -5,6 +5,7 @@ import { filterObjectByKeys } from "@/helpers";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { useUserSchema } from "@/hooks/useUserSchema";
 import SelectImage from "../components/layouts/SelectImage.vue";
+import defaultAvatar from "@/assets/images/default_avatar.png";
 
 export default {
   components: {
@@ -36,7 +37,7 @@ export default {
       "address",
       "phone_number",
     ]);
-    return { state, userSchema, imageUploaded };
+    return { state, userSchema, imageUploaded, defaultAvatar };
   },
 
   async created() {
@@ -87,6 +88,7 @@ export default {
                     imgShape="rounded-circle"
                     :imgUrl="state.user.avatar"
                     @getImage="getImage"
+                    :imgDefault="defaultAvatar"
                   />
                 </div>
                 <div class="col-lg-8">

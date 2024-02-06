@@ -37,8 +37,6 @@ const BookController = {
     try {
       let book = await Book.create({
         ...req.validated,
-        total_quantity: req.validated.quantity,
-        remain_quantity: req.validated.quantity,
         slug: slug(req.validated.name),
       });
       return res.status(200).json(

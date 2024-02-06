@@ -9,11 +9,11 @@ const isValidObjectIdMiddleWare = (req, res, next) => {
       throw InvalidObjectIdException;
     }
     _id = req.body._id;
-    if (_id && !mongoose.isValidObjectId(_id)) {
+    if (_id && !isValidObjectId(_id)) {
       throw InvalidObjectIdException;
     }
     _id = req.query._id;
-    if (_id && !mongoose.isValidObjectId(_id)) {
+    if (_id && !isValidObjectId(_id)) {
       throw InvalidObjectIdException;
     }
     next();

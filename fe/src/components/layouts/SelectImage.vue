@@ -1,24 +1,24 @@
 <script>
 import { computed, ref } from "vue";
 import { asset } from "@/helpers";
-import defaultAvatar from "@/assets/images/default_avatar.png";
+
 export default {
   emits: ["getImage"],
-  props: ["imgShape", "imgUrl"],
+  props: ["imgShape", "imgUrl", "imgDefault"],
   setup(props, { emit }) {
     const imgElement = ref(null);
     const previewUrl = ref(null);
     const imageUrl = computed(() => {
-      return props.imgUrl ? asset(props.imgUrl) : defaultAvatar;
+      return props.imgUrl ? asset(props.imgUrl) : props.imgDefault;
     });
     const previewImage = (event) => {
       let file = event?.target?.files[0];
       emit("getImage", file);
-      if (this.previewUrl) {
-        URL.revokeObjectURL(this.previewUrl);
+      if (previewUrl.value) {
+        URL.revokeObjectURL(previewUrl.value);
       }
-      this.previewUrl = URL.createObjectURL(file);
-      this.imgElement.src = this.previewUrl;
+      previewUrl.value = URL.createObjectURL(file);
+      imgElement.value.src = previewUrl.value;
     };
     return { imageUrl, previewUrl, imgElement, previewImage };
   },
