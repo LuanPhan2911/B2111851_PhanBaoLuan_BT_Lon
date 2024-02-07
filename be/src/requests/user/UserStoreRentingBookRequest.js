@@ -40,7 +40,7 @@ const UserStoreRentingBookRequest = (req, res, next) => {
 
     const rules = {
       days_after_expire: "required|integer|min:1",
-      quantity: "integer|min:1|quantity_valid",
+      renting_quantity: "integer|min:1|quantity_valid",
       book: {
         _id: "required|string|book_id_valid",
       },

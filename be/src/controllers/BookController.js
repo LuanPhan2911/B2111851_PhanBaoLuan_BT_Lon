@@ -33,6 +33,19 @@ const BookController = {
       next(error);
     }
   },
+  getToSelect: async (req, res, next) => {
+    try {
+      const books = await Book.find({}, "_id name remain_quantity");
+      return res.status(200).json(
+        ResponseSuccess({
+          data: books,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
+
   store: async (req, res, next) => {
     try {
       let book = await Book.create({

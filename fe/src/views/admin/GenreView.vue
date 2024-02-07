@@ -1,8 +1,8 @@
 <script>
 import { onMounted, ref } from "vue";
 import GenreService from "@/services/GenreService";
-import CreateGenres from "../../components/layouts/admin/genres/CreateGenres.vue";
-import TableGenres from "../../components/layouts/admin/genres/TableGenres.vue";
+import CreateGenres from "../../components/admin/genres/CreateGenres.vue";
+import TableGenres from "../../components/admin/genres/TableGenres.vue";
 export default {
   components: { CreateGenres, TableGenres },
   name: "adminGenreView",

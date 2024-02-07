@@ -4,12 +4,11 @@ import UserSerVice from "@/services/UserService";
 import { asset } from "@/helpers";
 import defaultAvatar from "@/assets/images/default_avatar.png";
 import moment from "moment";
-import Navbar from "../../components/layouts/admin/Navbar.vue";
 import Paginator from "../../components/layouts/Paginator.vue";
 import { usePaginator } from "@/hooks/usePaginator";
-import TableUsers from "../../components/layouts/admin/users/TableUsers.vue";
+import TableUsers from "../../components/admin/users/TableUsers.vue";
 export default {
-  components: { Navbar, Paginator, TableUsers },
+  components: { Paginator, TableUsers },
   name: "adminUserView",
   setup() {
     const { paginator, currentPage, getPagination } = usePaginator({
@@ -42,15 +41,15 @@ export default {
     async function onLockUser({ status, _id }) {
       if (confirm("Do you want to execute this action?")) {
         try {
-          let res = await UserSerVice.updateLockUser({
+          let data = await UserSerVice.updateLockUser({
             _id,
             data: {
               status,
             },
           });
 
-          if (res) {
-            await fetchUsers({ page: currentPage.value });
+          if (data) {
+            paginator.value = await fetchUsers({ page: currentPage.value });
           }
         } catch (error) {}
       }

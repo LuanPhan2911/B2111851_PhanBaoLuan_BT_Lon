@@ -12,6 +12,7 @@ const {
   store,
   update,
   updateImage,
+  getToSelect,
 } = require("../controllers/BookController");
 
 const { upload } = require("../utils/fileStorage/upload");
@@ -24,7 +25,7 @@ const router = Router();
 
 router.get("/:_id/show", IsValidObjectIdMiddleWare, show);
 router.get("/", IsValidPageNumberMiddleWare, index);
-
+router.get("/select", getToSelect);
 router.use(AuthAdminMiddleware);
 router.post("/create", StoreBookRequest, store);
 router.put("/:_id/edit", IsValidObjectIdMiddleWare, UpdateBookRequest, update);

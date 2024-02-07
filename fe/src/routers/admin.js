@@ -3,10 +3,11 @@ import UserView from "@/views/admin/UserView.vue";
 import GenreView from "@/views/admin/GenreView.vue";
 import PublisherView from "@/views/admin/PublisherView.vue";
 import BookView from "@/views/admin/BookView.vue";
-import AdminLayout from "@/components/layouts/admin/AdminLayout.vue";
-import BookLayout from "@/components/layouts/admin/books/BookLayout.vue";
+import AdminLayout from "@/components/admin/layouts/AdminLayout.vue";
+import BookLayout from "@/components/admin/books/BookLayout.vue";
 import BookCreateView from "@/views/admin/books/BookCreateView.vue";
 import BookEditView from "@/views/admin/books/BookEditView.vue";
+
 export default [
   {
     path: "/admin",

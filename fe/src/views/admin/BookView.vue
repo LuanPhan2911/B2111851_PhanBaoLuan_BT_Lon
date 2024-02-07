@@ -4,7 +4,7 @@ import BookService from "@/services/BookService";
 import { usePaginator } from "@/hooks/usePaginator";
 import { asset } from "@/helpers";
 import defaultImage from "@/assets/images/default_book.png";
-import TableBooks from "../../components/layouts/admin/books/TableBooks.vue";
+import TableBooks from "../../components/admin/books/TableBooks.vue";
 import Paginator from "../../components/layouts/Paginator.vue";
 export default {
   components: { TableBooks, Paginator },
@@ -15,7 +15,7 @@ export default {
     });
     async function fetchBooks(query) {
       try {
-        let data = await BookService.getALl(query);
+        let data = await BookService.getAll(query);
         return data;
       } catch (error) {}
     }

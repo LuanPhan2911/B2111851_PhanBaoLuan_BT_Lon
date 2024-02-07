@@ -45,7 +45,7 @@ const StoreRentingBookRequest = (req, res, next) => {
         phone_number: "required|string",
       },
       days_after_expire: "required|integer|min:1",
-      quantity: "integer|min:1|quantity_valid",
+      renting_quantity: "required|integer|min:1|quantity_valid",
       book: {
         _id: "required|string|book_id_valid",
       },

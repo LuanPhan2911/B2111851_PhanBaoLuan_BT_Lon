@@ -2,40 +2,27 @@
 import { Form, Field, ErrorMessage } from "vee-validate";
 import BookService from "@/services/BookService";
 import { computed, ref } from "vue";
-import SelectImage from "../../SelectImage.vue";
+import SelectImage from "../../layouts/SelectImage.vue";
 import defaultBook from "@/assets/images/default_book.png";
 import { useBookSchema } from "@/hooks/useBookSchema";
 import { useRouter } from "vue-router";
 export default {
   components: { Form, Field, ErrorMessage, SelectImage },
-  props: ["genres", "publishers"],
-  name: "BookCreate",
+  props: ["genres", "publishers", "book"],
+  name: "BookEdit",
   setup(props) {
     const router = useRouter();
-    const book = ref({
-      name: "",
-      description: "",
-      author_name: "",
-      year_publish: "",
-      total_quantity: null,
-      remain_quantity: null,
-      publisher: "",
-      genres: [],
-    });
+    const book = computed(() => props.book);
     const { bookSchema } = useBookSchema();
     const imgUploaded = ref(null);
-
     const genres = computed(() => props.genres);
     const publishers = computed(() => props.publishers);
-    const computedBook = computed(() => {
-      return {
-        ...book.value,
-        remain_quantity: book.value?.total_quantity,
-      };
-    });
-    const onCreate = async () => {
+    const onUpdate = async () => {
       try {
-        let data = await BookService.create(computedBook.value);
+        let data = await BookService.update({
+          _id: book.value._id,
+          data: book.value,
+        });
         if (data && imgUploaded.value) {
           let { _id } = data;
           const formData = new FormData();
@@ -53,7 +40,6 @@ export default {
       } catch (error) {}
     };
     const getImage = (file) => {
-      console.log(file);
       if (file) {
         imgUploaded.value = file;
       }
@@ -64,14 +50,14 @@ export default {
       genres,
       publishers,
       defaultBook,
-      onCreate,
+      onUpdate,
       getImage,
     };
   },
 };
 </script>
 <template>
-  <Form @submit="onCreate" :validationSchema="bookSchema">
+  <Form @submit="onUpdate" :validationSchema="bookSchema">
     <div class="row">
       <div class="col-lg-4">
         <div class="mb-3">
@@ -142,14 +128,15 @@ export default {
                 <span class="input-group-text">
                   <i class="bi bi-archive"></i>
                 </span>
-                <input
+                <field
                   type="number"
                   class="form-control"
                   placeholder="Remain Quantity"
-                  disabled
-                  :value="book.total_quantity"
+                  name="remain_quantity"
+                  v-model="book.remain_quantity"
                 />
               </div>
+              <error-message name="remain_quantity" class="text-danger" />
             </div>
           </div>
           <div class="col-lg-4">
@@ -220,7 +207,7 @@ export default {
         </div>
         <div class="mb-3 d-flex justify-content-center">
           <button class="btn btn-primary px-5 d-block" type="submit">
-            Create
+            Update
           </button>
         </div>
       </div>

@@ -39,13 +39,20 @@ const RentingBookController = {
   },
   store: async (req, res, next) => {
     try {
-      let { user, days_after_expire, quantity, book } = req.validated;
+      let { user, days_after_expire, renting_quantity, book } = req.validated;
       let reader = await User.create(user);
       let rentingBook = await RentingBookService.create({
         user: reader._id,
         book: book._id,
         expire_at: moment().add(days_after_expire, "days"),
-        quantity,
+        quantity: renting_quantity,
+        status: "renting",
+      });
+
+      await Book.findByIdAndUpdate(rentingBook.book, {
+        $inc: {
+          remain_quantity: -rentingBook.quantity,
+        },
       });
       await rentingBook.populate({
         path: "user",
@@ -86,6 +93,13 @@ const RentingBookController = {
       let rentingBook = await RentingBook.findByIdAndUpdate(_id, {
         status,
       });
+      if (rentingBook.status === "renting") {
+        await Book.findByIdAndUpdate(rentingBook.book, {
+          $inc: {
+            remain_quantity: -rentingBook.quantity,
+          },
+        });
+      }
       if (rentingBook.status === "completed") {
         await Book.findByIdAndUpdate(rentingBook.book, {
           $inc: {

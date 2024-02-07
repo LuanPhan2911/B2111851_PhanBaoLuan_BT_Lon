@@ -1,8 +1,8 @@
 <script>
 import PublisherService from "@/services/PublisherService";
 import { onMounted, ref } from "vue";
-import CreatePublishers from "../../components/layouts/admin/publishers/CreatePublishers.vue";
-import TablePublishers from "../../components/layouts/admin/publishers/TablePublishers.vue";
+import CreatePublishers from "../../components/admin/publishers/CreatePublishers.vue";
+import TablePublishers from "../../components/admin/publishers/TablePublishers.vue";
 export default {
   components: { CreatePublishers, TablePublishers },
   name: "adminPublisherView",

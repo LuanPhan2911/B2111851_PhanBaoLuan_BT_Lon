@@ -5,7 +5,7 @@ import PublisherService from "@/services/PublisherService";
 import BookService from "@/services/BookService";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import BookEdit from "../../../components/layouts/admin/books/BookEdit.vue";
+import BookEdit from "../../../components/admin/books/BookEdit.vue";
 
 export default {
   components: { BookEdit },

@@ -2,7 +2,7 @@
 import GenreService from "@/services/GenreService";
 import PublisherService from "@/services/PublisherService";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import BookCreate from "../../../components/layouts/admin/books/BookCreate.vue";
+import BookCreate from "../../../components/admin/books/BookCreate.vue";
 import { onMounted, ref } from "vue";
 
 export default {

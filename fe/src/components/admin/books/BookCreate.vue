@@ -1,28 +1,41 @@
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
 import BookService from "@/services/BookService";
-import { computed, ref, toRef } from "vue";
-import SelectImage from "../../SelectImage.vue";
+import { computed, ref } from "vue";
+import SelectImage from "../../layouts/SelectImage.vue";
 import defaultBook from "@/assets/images/default_book.png";
 import { useBookSchema } from "@/hooks/useBookSchema";
 import { useRouter } from "vue-router";
 export default {
   components: { Form, Field, ErrorMessage, SelectImage },
-  props: ["genres", "publishers", "book"],
-  name: "BookEdit",
+  props: ["genres", "publishers"],
+  name: "BookCreate",
   setup(props) {
     const router = useRouter();
-    const book = computed(() => props.book);
+    const book = ref({
+      name: "",
+      description: "",
+      author_name: "",
+      year_publish: "",
+      total_quantity: null,
+      remain_quantity: null,
+      publisher: "",
+      genres: [],
+    });
     const { bookSchema } = useBookSchema();
     const imgUploaded = ref(null);
+
     const genres = computed(() => props.genres);
     const publishers = computed(() => props.publishers);
-    const onUpdate = async () => {
+    const computedBook = computed(() => {
+      return {
+        ...book.value,
+        remain_quantity: book.value?.total_quantity,
+      };
+    });
+    const onCreate = async () => {
       try {
-        let data = await BookService.update({
-          _id: book.value._id,
-          data: book.value,
-        });
+        let data = await BookService.create(computedBook.value);
         if (data && imgUploaded.value) {
           let { _id } = data;
           const formData = new FormData();
@@ -50,14 +63,14 @@ export default {
       genres,
       publishers,
       defaultBook,
-      onUpdate,
+      onCreate,
       getImage,
     };
   },
 };
 </script>
 <template>
-  <Form @submit="onUpdate" :validationSchema="bookSchema">
+  <Form @submit="onCreate" :validationSchema="bookSchema">
     <div class="row">
       <div class="col-lg-4">
         <div class="mb-3">
@@ -128,15 +141,14 @@ export default {
                 <span class="input-group-text">
                   <i class="bi bi-archive"></i>
                 </span>
-                <field
+                <input
                   type="number"
                   class="form-control"
                   placeholder="Remain Quantity"
-                  name="remain_quantity"
-                  v-model="book.remain_quantity"
+                  disabled
+                  :value="book.total_quantity"
                 />
               </div>
-              <error-message name="remain_quantity" class="text-danger" />
             </div>
           </div>
           <div class="col-lg-4">
@@ -207,7 +219,7 @@ export default {
         </div>
         <div class="mb-3 d-flex justify-content-center">
           <button class="btn btn-primary px-5 d-block" type="submit">
-            Update
+            Create
           </button>
         </div>
       </div>

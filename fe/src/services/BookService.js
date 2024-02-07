@@ -3,11 +3,20 @@ class BookService {
   constructor() {
     this._api = createClient("/api/books");
   }
-  async getALl(query) {
+  async getAll(query) {
     try {
       let res = await this._api.get("/", {
         params: query,
       });
+      if (res?.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
+  async getToSelect() {
+    try {
+      let res = await this._api.get("/select");
       if (res?.success) {
         return res.data;
       }

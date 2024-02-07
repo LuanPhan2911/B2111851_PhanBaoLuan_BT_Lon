@@ -40,14 +40,15 @@ const UserController = {
   rentBook: async (req, res, next) => {
     try {
       let { _id: user_id } = req.user;
-      let { days_after_expire, quantity } = req.validated;
+      let { days_after_expire, renting_quantity } = req.validated;
       let { _id: book_id } = req.validated.book;
 
       let rentingBook = await RentingBookService.create({
         book: book_id,
         user: user_id,
         expire_at: moment().add(days_after_expire, "days"),
-        quantity,
+        quantity: renting_quantity,
+        status: "spending",
       });
 
       return res.status(200).json(

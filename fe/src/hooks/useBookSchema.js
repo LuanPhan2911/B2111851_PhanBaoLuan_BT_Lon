@@ -12,7 +12,6 @@ export function useBookSchema() {
       .min(1, "Số lượng tối thiểu là 1"),
     remain_quantity: yup
       .number()
-      .required("Tổng số lượng bắt buộc phải điền")
       .min(1, "Số lượng tối thiểu là 1")
       .max(yup.ref("total_quantity"), "Số lượng không hợp lệ"),
   };
