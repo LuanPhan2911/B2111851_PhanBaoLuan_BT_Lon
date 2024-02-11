@@ -11,12 +11,14 @@ export default {
   components: { Paginator, TableUsers },
   name: "adminUserView",
   setup() {
-    const { paginator, currentPage, getPagination } = usePaginator({
-      fetchData: fetchUsers,
-    });
+    const { docs, currentPage, links, setPaginator, changePage } = usePaginator(
+      {
+        fetchData: fetchUsers,
+      }
+    );
 
     const users = computed(() => {
-      return paginator.value?.docs?.map((item) => {
+      return docs.value.map((item) => {
         return {
           ...item,
           avatar: item.avatar ? asset(item.avatar) : defaultAvatar,
@@ -26,7 +28,7 @@ export default {
         };
       });
     });
-    const pagination = computed(() => getPagination(paginator.value));
+
     onMounted(async () => {
       document.title = "Admin - Manage User";
     });
@@ -49,18 +51,19 @@ export default {
           });
 
           if (data) {
-            paginator.value = await fetchUsers({ page: currentPage.value });
+            let users = await fetchUsers({ page: currentPage.value });
+            setPaginator(users);
           }
         } catch (error) {}
       }
     }
-    return { users, pagination, onLockUser };
+    return { users, links, onLockUser, changePage };
   },
 };
 </script>
 <template>
   <div>
     <table-users :users="users" @onLock="onLockUser" />
-    <paginator :paginate="pagination" />
+    <paginator :links="links" @changePage="changePage" />
   </div>
 </template>

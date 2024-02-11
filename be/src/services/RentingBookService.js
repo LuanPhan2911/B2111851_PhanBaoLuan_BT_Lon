@@ -1,6 +1,4 @@
-const { isValidObjectId } = require("mongoose");
 const RentingBook = require("../models/RentingBook");
-const Book = require("../models/Book");
 
 class RentingBookService {
   static async create({ book, user, expire_at, quantity, status }) {
@@ -14,7 +12,10 @@ class RentingBookService {
     return rentingBook;
   }
   static async delete({ _id }) {
-    let rentingBook = await RentingBook.findByIdAndDelete(_id);
+    let rentingBook = await RentingBook.findById(_id);
+    if (rentingBook.status !== "renting") {
+      await rentingBook.deleteOne();
+    }
     return rentingBook;
   }
 }

@@ -2,56 +2,39 @@
 import { computed, toRef } from "vue";
 export default {
   name: "Paginator",
-  props: ["paginate"],
-  setup(props) {
-    const paginate = computed(() => props.paginate);
-    return { paginate };
+  props: ["links"],
+  emits: ["changePage"],
+  setup(props, { emit }) {
+    const links = computed(() => props.links);
+    const showLinks = computed(
+      () => links.value?.hasNextPage || links.value?.hasPrevPage
+    );
+    const changePage = (page) => emit("changePage", page);
+    return { links, showLinks, changePage };
   },
 };
 </script>
 <template>
-  <ul class="pagination justify-content-center">
-    <li class="page-item" :class="{ disabled: !paginate?.hasPrevPage }">
-      <router-link
-        class="page-link"
-        :to="{
-          query: {
-            page: paginate?.prevPage,
-          },
-        }"
-      >
+  <ul class="pagination justify-content-center" v-if="showLinks">
+    <li class="page-item" :class="{ disabled: !links?.hasPrevPage }">
+      <button class="page-link" @click="changePage(links.prevPage)">
         <span aria-hidden="true">&laquo;</span>
-      </router-link>
+      </button>
     </li>
 
     <li
       class="page-item"
-      v-for="page in paginate?.totalPages"
+      v-for="page in links?.totalPages"
       :key="page"
-      :class="{ active: paginate?.page == page }"
+      :class="{ active: links?.page == page }"
     >
-      <router-link
-        class="page-link"
-        :to="{
-          query: {
-            page,
-          },
-        }"
-        >{{ page }}
-      </router-link>
+      <button class="page-link" @click="changePage(page)">{{ page }}</button>
     </li>
 
-    <li class="page-item" :class="{ disabled: !paginate?.hasNextPage }">
-      <router-link
-        class="page-link"
-        :to="{
-          query: {
-            page: paginate?.nextPage,
-          },
-        }"
-      >
+    <li class="page-item" :class="{ disabled: !links?.hasNextPage }">
+      <button class="page-link" @click="changePage(links?.nextPage)">
         <span aria-hidden="true">&raquo;</span>
-      </router-link>
+      </button>
     </li>
   </ul>
 </template>

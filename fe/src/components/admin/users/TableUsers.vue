@@ -19,12 +19,12 @@ export default {
     </caption>
     <thead class="table-info">
       <tr>
-        <th>#</th>
         <th>Avatar</th>
         <th>Name</th>
         <th>Email</th>
         <th>BirthYear</th>
         <th>Gender</th>
+        <th>Address</th>
         <th>CreateAt</th>
         <th><i class="bi bi-arrow-down-up"></i> Action</th>
       </tr>
@@ -35,7 +35,6 @@ export default {
         v-for="user in users"
         :key="user._id"
       >
-        <td>{{ user._id }}</td>
         <td>
           <img :src="user.avatar" alt="" class="avatar rounded-circle" />
         </td>
@@ -43,6 +42,7 @@ export default {
         <td>{{ user.email }}</td>
         <td>{{ user.birthday }}</td>
         <td>{{ user.gender }}</td>
+        <td>{{ user.address }}</td>
         <td>{{ user.createdAt }}</td>
         <td>
           <button

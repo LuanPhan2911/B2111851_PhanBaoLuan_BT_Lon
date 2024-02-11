@@ -6,10 +6,12 @@ import BookService from "@/services/BookService";
 import AdminService from "@/services/AdminService";
 export default {
   components: { Field, Form, ErrorMessage },
-  name: "BookRent",
-  setup() {
+  name: "BookRentCreate",
+  emits: ["hideModal"],
+  setup(props, { emit }) {
     const selectBooks = ref([]);
-    const rentingBook = ref({
+
+    let rentingBook = ref({
       user: {
         name: "",
         birthday: 2000,
@@ -18,14 +20,15 @@ export default {
         address: "",
       },
       days_after_expire: 7,
-      remain_quantity: null,
-      renting_quantity: null,
-      book: null,
+      remain_quantity: 0,
+      renting_quantity: 1,
+      book: "",
     });
     const { rentingBookSchema } = useRentingBookSchema();
     onMounted(() => {
       fetchSelectBooks();
     });
+    const hideModal = () => emit("hideModal");
     async function fetchSelectBooks() {
       try {
         let data = await BookService.getToSelect();
@@ -38,10 +41,25 @@ export default {
       try {
         let data = await AdminService.createRentBook(rentingBook.value);
         if (data) {
-          console.log(data);
+          hideModal();
+          await fetchSelectBooks();
+          rentingBook.value = {
+            user: {
+              name: "",
+              birthday: 2000,
+              gender: 1,
+              phone_number: "",
+              address: "",
+            },
+            days_after_expire: 7,
+            remain_quantity: 0,
+            renting_quantity: 1,
+            book: "",
+          };
         }
       } catch (error) {}
     }
+
     return { rentingBook, rentingBookSchema, selectBooks, onCreate };
   },
 };

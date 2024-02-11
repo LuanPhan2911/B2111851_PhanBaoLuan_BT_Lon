@@ -32,7 +32,7 @@ export default {
         <thead class="table-primary">
           <tr>
             <th>#</th>
-            <th>Id</th>
+
             <th>Name</th>
             <th>Slug</th>
             <th>Action</th>
@@ -41,7 +41,6 @@ export default {
         <tbody>
           <tr v-for="(genre, index) in genres" :key="genre._id">
             <td>{{ index + 1 }}</td>
-            <td>{{ genre._id }}</td>
             <td>{{ genre.name }}</td>
             <td>{{ genre.slug }}</td>
             <td>

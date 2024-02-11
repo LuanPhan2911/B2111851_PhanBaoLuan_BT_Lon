@@ -19,11 +19,11 @@ const RentingBookController = {
           populate: [
             {
               path: "user",
-              select: "_id name",
+              select: "_id name birthday gender phone_number address",
             },
             {
               path: "book",
-              select: "_id name slug",
+              select: "_id name",
             },
           ],
         }
@@ -69,16 +69,20 @@ const RentingBookController = {
   },
   show: async (req, res, next) => {
     try {
-      let { _id: book_id } = req.params;
-      let userRenting = await RentingBook.find({
-        book: book_id,
-      }).populate({
-        path: "user",
-        select: "_id email avatar",
-      });
+      let { _id } = req.params;
+      let rentBook = await RentingBook.findById(_id).populate([
+        {
+          path: "user",
+          select: "_id name birthday gender phone_number address",
+        },
+        {
+          path: "book",
+          select: "_id name author_name image remain_quantity",
+        },
+      ]);
       return res.status(200).json(
         ResponseSuccess({
-          data: userRenting,
+          data: rentBook,
         })
       );
     } catch (error) {
@@ -93,14 +97,14 @@ const RentingBookController = {
       let rentingBook = await RentingBook.findByIdAndUpdate(_id, {
         status,
       });
-      if (rentingBook.status === "renting") {
+      if (status === "renting") {
         await Book.findByIdAndUpdate(rentingBook.book, {
           $inc: {
             remain_quantity: -rentingBook.quantity,
           },
         });
       }
-      if (rentingBook.status === "completed") {
+      if (status === "completed") {
         await Book.findByIdAndUpdate(rentingBook.book, {
           $inc: {
             remain_quantity: rentingBook.quantity,

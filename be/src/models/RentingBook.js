@@ -23,7 +23,7 @@ const rentingBook = new Schema(
     },
     status: {
       type: String,
-      enum: ["spending", "renting", "completed"],
+      enum: ["spending", "renting", "completed", "expired"],
       default: "spending",
     },
   },

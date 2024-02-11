@@ -10,18 +10,20 @@ export default {
   components: { TableBooks, Paginator },
   name: "adminBookView",
   setup() {
-    const { currentPage, getPagination, paginator } = usePaginator({
-      fetchData: fetchBooks,
-    });
+    const { currentPage, docs, links, setPaginator, changePage } = usePaginator(
+      {
+        fetchData: fetchBooks,
+      }
+    );
     async function fetchBooks(query) {
       try {
         let data = await BookService.getAll(query);
         return data;
       } catch (error) {}
     }
-    const pagination = computed(() => getPagination(paginator.value));
+
     const books = computed(() =>
-      paginator.value?.docs?.map((item) => {
+      docs.value.map((item) => {
         return {
           ...item,
           image: item.image ? asset(item.image) : defaultImage,
@@ -38,14 +40,15 @@ export default {
             _id,
           });
           if (data) {
-            paginator.value = await fetchBooks({
+            let books = await fetchBooks({
               page: currentPage.value,
             });
+            setPaginator(books);
           }
         } catch (error) {}
       }
     }
-    return { books, pagination, onDelete };
+    return { books, links, onDelete, changePage };
   },
 };
 </script>
@@ -60,7 +63,7 @@ export default {
       <table-books :books="books" @onDelete="onDelete" />
     </div>
     <div class="mb-3">
-      <paginator :paginate="pagination" />
+      <paginator :links="links" @changePage="changePage" />
     </div>
   </div>
 </template>

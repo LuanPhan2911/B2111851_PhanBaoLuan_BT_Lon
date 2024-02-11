@@ -81,7 +81,7 @@ const UserController = {
     let { page } = req.query;
     try {
       let users = await User.paginate(
-        { role: { $nin: ["admin"] } },
+        { role: { $ne: "admin" }, email: { $ne: null } },
         {
           limit: 10,
           page,

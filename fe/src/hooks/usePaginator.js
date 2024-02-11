@@ -1,8 +1,7 @@
 import { computed, onMounted, watch } from "vue";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
 
-export function usePaginator({ fetchData, query = {} }) {
+export function usePaginator({ fetchData, qs = {} }) {
   const paginator = ref({
     docs: [],
     limit: Number(),
@@ -13,11 +12,13 @@ export function usePaginator({ fetchData, query = {} }) {
     prevPage: Number(),
     nextPage: Number(),
   });
-  const route = useRoute();
-  const currentPage = computed(() => route.query?.page || 1);
-  const getPagination = (data) => {
+  const query = ref(qs);
+  const refresh = ref(false);
+  const docs = computed(() => paginator.value.docs);
+  const currentPage = computed(() => paginator.value.page);
+  const links = computed(() => {
     let { page, totalPages, hasNextPage, hasPrevPage, prevPage, nextPage } =
-      data;
+      paginator.value;
     return {
       page,
       totalPages,
@@ -26,20 +27,59 @@ export function usePaginator({ fetchData, query = {} }) {
       prevPage,
       nextPage,
     };
-  };
+  });
   onMounted(async () => {
     let data = await fetchData({
-      ...query,
+      ...query.value,
       page: currentPage.value,
     });
     paginator.value = data;
   });
-  watch(currentPage, async (newPage) => {
+  watch(currentPage, async () => {
     let data = await fetchData({
-      ...query,
+      ...query.value,
       page: currentPage.value,
     });
     paginator.value = data;
   });
-  return { paginator, currentPage, getPagination };
+  watch(query, async () => {
+    let data = await fetchData({
+      ...query.value,
+      page: currentPage.value,
+    });
+    paginator.value = data;
+  });
+  watch(refresh, async (isRefresh) => {
+    if (isRefresh) {
+      let data = await fetchData({
+        ...query.value,
+        page: currentPage.value,
+      });
+      paginator.value = data;
+      refresh.value = false;
+    }
+  });
+
+  const setPaginator = (data) => {
+    paginator.value = data;
+  };
+  const changePage = (page) => {
+    paginator.value.page = page;
+  };
+  const changeQuery = (newQuery) => {
+    query.value = newQuery;
+  };
+  const onRefresh = () => {
+    refresh.value = true;
+  };
+  return {
+    paginator,
+    currentPage,
+    links,
+    docs,
+    changePage,
+    setPaginator,
+    changeQuery,
+    onRefresh,
+  };
 }

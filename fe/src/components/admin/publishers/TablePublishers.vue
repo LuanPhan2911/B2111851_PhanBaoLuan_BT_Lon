@@ -32,7 +32,7 @@ export default {
         <thead class="table-primary">
           <tr>
             <th>#</th>
-            <th>Id</th>
+
             <th>Name</th>
             <th>Slug</th>
             <th>Action</th>
@@ -41,7 +41,7 @@ export default {
         <tbody>
           <tr v-for="(each, index) in publishers" :key="each._id">
             <td>{{ index + 1 }}</td>
-            <td>{{ each._id }}</td>
+
             <td>{{ each.name }}</td>
             <td>{{ each.slug }}</td>
             <td>
