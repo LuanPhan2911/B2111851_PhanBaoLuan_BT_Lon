@@ -15,4 +15,14 @@ export default {
 .pointer {
   cursor: pointer;
 }
+.line-break {
+  white-space: pre-line;
+}
+.text-overflow-20-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 20;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

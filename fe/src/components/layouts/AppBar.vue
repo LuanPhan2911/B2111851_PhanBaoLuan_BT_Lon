@@ -35,5 +35,6 @@ export default {
 .branch-icon-size {
   width: 3em;
   height: 3em;
+  opacity: 0.7;
 }
 </style>

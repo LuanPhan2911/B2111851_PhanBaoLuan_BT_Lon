@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import BookDetailView from "@/views/BookDetailView.vue";
 import UpdateProfileView from "@/views/UpdateProfileView.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
 import store from "@/stores/store";
@@ -15,6 +16,11 @@ const routes = [
         path: "",
         name: "home",
         component: HomeView,
+      },
+      {
+        path: "books/:slug",
+        name: "bookDetail",
+        component: BookDetailView,
       },
       {
         path: "login",

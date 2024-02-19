@@ -1,5 +1,5 @@
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import BookService from "@/services/BookService";
 import { usePaginator } from "@/hooks/usePaginator";
 import { asset } from "@/helpers";
@@ -10,11 +10,12 @@ export default {
   components: { TableBooks, Paginator },
   name: "adminBookView",
   setup() {
-    const { currentPage, docs, links, setPaginator, changePage } = usePaginator(
-      {
+    const timer = ref(null);
+    const name = ref("");
+    const { currentPage, docs, links, setPaginator, changePage, changeQuery } =
+      usePaginator({
         fetchData: fetchBooks,
-      }
-    );
+      });
     async function fetchBooks(query) {
       try {
         let data = await BookService.getAll(query);
@@ -48,16 +49,44 @@ export default {
         } catch (error) {}
       }
     }
-    return { books, links, onDelete, changePage };
+    watch(name, () => {
+      if (timer.value) {
+        clearTimeout(timer.value);
+        timer.value = null;
+      }
+      timer.value = setTimeout(() => {
+        changeQuery({
+          name: name.value,
+        });
+      }, 500);
+    });
+    return { books, links, name, onDelete, changePage };
   },
 };
 </script>
 <template>
   <div>
-    <div class="mb-3">
-      <router-link :to="{ name: 'adminBookCreateView' }" class="btn btn-primary"
-        >Create</router-link
-      >
+    <div class="mb-3 row justify-content-between gap-2">
+      <div class="col-lg-5 col-sm-12">
+        <router-link
+          :to="{ name: 'adminBookCreateView' }"
+          class="btn btn-primary"
+          >Create</router-link
+        >
+      </div>
+      <div class="col-lg-5 col-sm-12">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            class="form-control"
+            type="search"
+            placeholder="Book Name..."
+            v-model="name"
+          />
+        </div>
+      </div>
     </div>
     <div class="mb-3">
       <table-books :books="books" @onDelete="onDelete" />

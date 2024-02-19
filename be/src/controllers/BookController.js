@@ -6,9 +6,14 @@ const slug = require("slug");
 const BookController = {
   index: async (req, res, next) => {
     try {
-      let { page } = req.query;
+      let { page, name } = req.query;
       let books = await Book.paginate(
-        {},
+        {
+          name: {
+            $regex: name || "",
+            $options: "i",
+          },
+        },
         {
           page,
           limit: 10,
@@ -33,9 +38,65 @@ const BookController = {
       next(error);
     }
   },
+
+  getNewest: async (req, res, next) => {
+    try {
+      const books = await Book.find({}, "_id image name slug", {
+        limit: 10,
+        sort: {
+          createdAt: -1,
+        },
+      });
+      return res.status(200).json(
+        ResponseSuccess({
+          data: books,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
   getToSelect: async (req, res, next) => {
     try {
       const books = await Book.find({}, "_id name remain_quantity");
+      return res.status(200).json(
+        ResponseSuccess({
+          data: books,
+        })
+      );
+    } catch (error) {
+      next(error);
+    }
+  },
+  get: async (req, res, next) => {
+    try {
+      const { genres, publisher, _id } = req.query;
+      const books = await Book.find(
+        {
+          _id: {
+            $ne: _id,
+          },
+          $or: [
+            {
+              genres: {
+                $in: genres,
+              },
+            },
+            {
+              publisher: {
+                $eq: publisher,
+              },
+            },
+          ],
+        },
+        "_id image name slug",
+        {
+          limit: 10,
+          sort: {
+            createdAt: -1,
+          },
+        }
+      );
       return res.status(200).json(
         ResponseSuccess({
           data: books,

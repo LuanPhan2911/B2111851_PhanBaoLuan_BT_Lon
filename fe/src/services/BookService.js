@@ -24,9 +24,29 @@ class BookService {
       return null;
     } catch (error) {}
   }
+  async getNewest() {
+    try {
+      let res = await this._api.get("/newest");
+      if (res?.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
   async create(data) {
     try {
       let res = await this._api.post("/create", data);
+      if (res?.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
+  async get(qs) {
+    try {
+      let res = await this._api.get("/filter", {
+        params: qs,
+      });
       if (res?.success) {
         return res.data;
       }

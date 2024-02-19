@@ -1,5 +1,6 @@
 <script>
 import { computed } from "vue";
+import _ from "lodash";
 export default {
   emits: ["onDelete"],
   props: ["books"],
@@ -7,12 +8,16 @@ export default {
   setup(props, { emit }) {
     const books = computed(() => props.books);
     const onDelete = (_id) => emit("onDelete", _id);
-    return { books, onDelete };
+    const hasBooks = computed(() => !_.isEmpty(props.books));
+    return { books, hasBooks, onDelete };
   },
 };
 </script>
 <template>
-  <table className="table table-bordered table-striped table-hover">
+  <table
+    className="table table-bordered table-striped table-hover"
+    v-if="hasBooks"
+  >
     <thead class="table-primary">
       <tr>
         <th>Image</th>
@@ -57,6 +62,12 @@ export default {
       </tr>
     </tbody>
   </table>
+  <div
+    class="container fs-3 text-primary d-flex justify-content-center align-items-center block text-capitalize"
+    v-else
+  >
+    Empty Books
+  </div>
 </template>
 <style>
 .avatar {
