@@ -32,6 +32,7 @@ export default {
     onMounted(() => {
       fetchBooks();
       fetchGenres();
+      document.title = "Books | Home";
     });
     return { books, genres };
   },

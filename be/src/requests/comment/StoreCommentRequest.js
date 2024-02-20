@@ -22,7 +22,7 @@ const StoreCommentRequest = (req, res, next) => {
         if (["Book"].includes(commentable?._type)) {
           let isValid = await CommentService.validCommentableId({
             _id,
-            _type: commentable?.type,
+            _type: commentable?._type,
           });
           if (isValid) {
             return passes();

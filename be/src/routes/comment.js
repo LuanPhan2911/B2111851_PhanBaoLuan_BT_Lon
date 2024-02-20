@@ -19,12 +19,7 @@ const StoreCommentRequest = require("../requests/comment/StoreCommentRequest");
 const router = Router();
 
 router.get("/", IsValidPageNumberMiddleWare, index);
-router.get(
-  "/:_id/replies",
-  IsValidPageNumberMiddleWare,
-  IsValidObjectIdMiddleWare,
-  getReplies
-);
+router.get("/:_id/replies", IsValidObjectIdMiddleWare, getReplies);
 
 router.use(AuthMiddleware);
 router.post("/create", StoreCommentRequest, store);

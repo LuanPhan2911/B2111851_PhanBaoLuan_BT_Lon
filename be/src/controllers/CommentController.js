@@ -5,10 +5,12 @@ const { CommentService } = require("../services");
 const CommentController = {
   index: async (req, res, next) => {
     try {
-      let { page } = req.query;
+      let { page, _type, _id } = req.query;
       let comments = await Comment.paginate(
         {
           parent_id: null,
+          commentable_type: _type,
+          commentable_id: _id,
         },
         {
           page: page || 1,
@@ -16,6 +18,9 @@ const CommentController = {
           populate: {
             path: "user",
             select: "id name avatar",
+          },
+          sort: {
+            createdAt: -1,
           },
         }
       );
@@ -32,17 +37,18 @@ const CommentController = {
   getReplies: async (req, res, next) => {
     try {
       let { _id } = req.params;
-      let { page } = req.query;
-      let comments = await Comment.paginate(
+      let comments = await Comment.find(
         {
           parent_id: _id,
         },
+        {},
         {
-          page: page || 1,
-          limit: 10,
           populate: {
             path: "user",
             select: "id name avatar",
+          },
+          sort: {
+            createdAt: -1,
           },
         }
       );
@@ -64,12 +70,11 @@ const CommentController = {
         commentable_id: commentable._id,
         commentable_type: commentable._type,
         message,
-        parent_id: parent ? parent?.id : null,
+        parent_id: parent ? parent?._id : null,
         user: req.user._id,
       });
-      let { parent_id } = req.validated;
-      if (parent_id) {
-        await Comment.findByIdAndUpdate(parent_id, {
+      if (comment.parent_id) {
+        await Comment.findByIdAndUpdate(comment.parent_id, {
           $inc: {
             replies_count: 1,
           },
@@ -77,23 +82,10 @@ const CommentController = {
       }
       return res.status(200).json(
         ResponseSuccess({
-          message: comment,
+          data: comment,
+          message: "Comment Success",
         })
       );
-    } catch (error) {
-      next(error);
-    }
-  },
-  show: async (req, res, next) => {
-    try {
-      return res.status(200).json(ResponseSuccess({}));
-    } catch (error) {
-      next(error);
-    }
-  },
-  update: async (req, res, next) => {
-    try {
-      return res.status(200).json(ResponseSuccess({}));
     } catch (error) {
       next(error);
     }

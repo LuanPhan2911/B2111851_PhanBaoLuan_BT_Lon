@@ -7,7 +7,6 @@ export function useClassButton() {
     "btn-info",
     "btn-warning",
     "btn-secondary",
-    "btn-light",
     "btn-danger",
   ];
   const getRandom = () => _.sample(btn);

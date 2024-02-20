@@ -1,4 +1,6 @@
+import { asset } from "@/helpers";
 import { createStore } from "vuex";
+import defaultAvatar from "@/assets/images/default_avatar.png";
 
 const store = createStore({
   state() {
@@ -16,7 +18,7 @@ const store = createStore({
     setUser(state, user) {
       state.user._id = user._id;
       state.user.name = user.name;
-      state.user.avatar = user.avatar;
+      state.user.avatar = user.avatar ? asset(user.avatar) : defaultAvatar;
       state.user.isAdmin = user.isAdmin;
     },
     setUserNull(state) {

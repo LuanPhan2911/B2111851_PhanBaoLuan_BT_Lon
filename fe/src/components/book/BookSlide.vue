@@ -30,7 +30,7 @@ export default {
       },
     });
 
-    const computedBook = computed(() => {
+    const books = computed(() => {
       return props.books.map((item) => {
         return {
           ...item,
@@ -49,13 +49,17 @@ export default {
         },
       });
     };
-    return { computedBook, settings, breakpoints, showDetail };
+    return { books, settings, breakpoints, showDetail };
   },
 };
 </script>
 <template>
-  <carousel v-bind="settings" :breakpoints="breakpoints">
-    <slide v-for="book in computedBook" :key="book._id">
+  <carousel
+    v-bind="settings"
+    :breakpoints="breakpoints"
+    v-if="books?.length > 0"
+  >
+    <slide v-for="book in books" :key="book._id">
       <div
         class="carousel__item pointer"
         @click="
@@ -70,6 +74,7 @@ export default {
       </div>
     </slide>
   </carousel>
+  <h4 v-else class="text-center text-primary">Không có truyện phù hợp</h4>
 </template>
 <style scoped>
 .carousel__item {
