@@ -48,5 +48,25 @@ class UserService {
       return null;
     } catch (error) {}
   }
+  async rentBook({ data }) {
+    try {
+      let res = await this._api.post("/renting_books/create", data);
+      if (res.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
+  async getRentBook(qs) {
+    try {
+      let res = await this._api.get("/renting_books", {
+        params: qs,
+      });
+      if (res.success) {
+        return res.data;
+      }
+      return null;
+    } catch (error) {}
+  }
 }
 export default new UserService();

@@ -26,7 +26,9 @@ export default {
     const fetchBooks = async () => {
       try {
         let data = await BookService.getNewest();
-        books.value = data;
+        if (data) {
+          books.value = data;
+        }
       } catch (error) {}
     };
     onMounted(() => {

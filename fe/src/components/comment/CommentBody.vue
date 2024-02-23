@@ -4,6 +4,7 @@ import CommentCreate from "./CommentCreate.vue";
 import { asset } from "@/helpers";
 import defaultAvatar from "@/assets/images/default_avatar.png";
 import moment from "moment";
+import { useTruncate } from "@/hooks/useTruncate";
 export default {
   components: { CommentCreate },
   name: "CommentBody",
@@ -22,27 +23,21 @@ export default {
         createdAt: moment(props.comment?.createdAt).fromNow(),
       };
     });
-    const messageRef = ref(null);
-    const hasOverflow = computed(() => {
-      return messageRef.value?.scrollHeight > messageRef.value?.clientHeight;
-    });
-    const truncate = ref(true);
+    const { textRef, truncated, showText, hasShowAction } = useTruncate();
 
     return {
       user,
       comment,
-      hasOverflow,
-      messageRef,
-      truncate,
+      textRef,
+      truncated,
+      showText,
+      hasShowAction,
     };
   },
 };
 </script>
 <template>
-  <div
-    class="position-relative p-3 mb-2 border-bottom"
-    style="min-height: 100px"
-  >
+  <div class="position-relative p-3 mb-2 border-bottom">
     <div class="row">
       <div class="col-auto">
         <img :src="user.avatar" class="avatar rounded-circle" />
@@ -61,17 +56,17 @@ export default {
           <div
             class="mt-2"
             style="min-height: 50px"
-            ref="messageRef"
+            ref="textRef"
             :class="{
-              'text-overflow-3-line': truncate,
+              'text-overflow-3-line': truncated,
             }"
           >
             {{ comment.message }}
           </div>
           <button
             class="read_more border-0 text-primary bg-transparent"
-            @click="truncate = false"
-            v-if="hasOverflow && truncate"
+            @click="showText"
+            v-if="hasShowAction"
           >
             Đọc tiếp
           </button>

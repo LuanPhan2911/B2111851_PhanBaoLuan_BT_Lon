@@ -6,13 +6,29 @@ const slug = require("slug");
 const BookController = {
   index: async (req, res, next) => {
     try {
-      let { page, name } = req.query;
+      let { page, name, genre } = req.query;
       let books = await Book.paginate(
         {
-          name: {
-            $regex: name || "",
-            $options: "i",
-          },
+          $or: [
+            {
+              name: {
+                $regex: name || "",
+                $options: "i",
+              },
+            },
+            {
+              author_name: {
+                $regex: name || "",
+                $options: "i",
+              },
+            },
+          ],
+
+          ...(genre && {
+            genres: {
+              $in: [genre],
+            },
+          }),
         },
         {
           page,
@@ -20,11 +36,9 @@ const BookController = {
           populate: [
             {
               path: "publisher",
-              select: "-books",
             },
             {
               path: "genres",
-              select: "-books",
             },
           ],
         }

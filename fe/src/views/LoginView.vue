@@ -4,6 +4,7 @@ import AuthService from "@/services/AuthService";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { reactive } from "vue";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "vue-router";
 
 export default {
   name: "LoginView",
@@ -16,31 +17,27 @@ export default {
     const { isAuth } = useAuth();
     const { getSchema } = useUserSchema();
     const userSchema = getSchema(["email", "password"]);
-
+    const router = useRouter();
     const user = reactive({
       email: "",
       password: "",
     });
-    return { user, userSchema, isAuth };
-  },
-  methods: {
-    async onLogin() {
+    const onLogin = async () => {
       try {
-        let data = await AuthService.login(this.user);
+        let data = await AuthService.login(user);
         if (data) {
-          this.$router.push({ name: "home" });
+          router.back();
         }
-      } catch (error) {
-        console.log(error);
-      }
-    },
+      } catch (error) {}
+    };
+    return { user, userSchema, isAuth, onLogin };
   },
 };
 </script>
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-5 my-3">
+      <div class="col-lg-6 my-3 col-md-8">
         <div class="card shadow">
           <div class="card-header">
             <h3 class="text-center text-primary">Đăng nhập</h3>

@@ -65,7 +65,7 @@ const CommentController = {
   store: async (req, res, next) => {
     try {
       let { commentable, message, parent } = req.validated;
-      console.log(commentable, message, parent);
+
       let comment = await Comment.create({
         commentable_id: commentable._id,
         commentable_type: commentable._type,

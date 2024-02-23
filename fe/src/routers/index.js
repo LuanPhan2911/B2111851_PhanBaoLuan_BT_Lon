@@ -4,6 +4,8 @@ import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import BookDetailView from "@/views/BookDetailView.vue";
 import UpdateProfileView from "@/views/UpdateProfileView.vue";
+import BookShelfView from "@/views/BookShelfView.vue";
+import BookFilterView from "@/views/BookFilterView.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
 import store from "@/stores/store";
 import admin from "./admin";
@@ -23,6 +25,11 @@ const routes = [
         component: BookDetailView,
       },
       {
+        path: "books",
+        name: "bookFilter",
+        component: BookFilterView,
+      },
+      {
         path: "login",
         name: "login",
         component: LoginView,
@@ -36,6 +43,14 @@ const routes = [
         path: "profile",
         name: "updateUser",
         component: UpdateProfileView,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "users/books",
+        name: "bookShelf",
+        component: BookShelfView,
         meta: {
           requiresAuth: true,
         },

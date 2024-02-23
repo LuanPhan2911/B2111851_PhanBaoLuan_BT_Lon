@@ -14,8 +14,8 @@ export function usePaginator({ fetchData, qs = {} }) {
   });
   const query = ref(qs);
   const refresh = ref(false);
-  const docs = computed(() => paginator.value.docs);
-  const currentPage = computed(() => paginator.value.page);
+  const docs = computed(() => paginator.value?.docs);
+  const currentPage = computed(() => paginator.value?.page);
   const links = computed(() => {
     let { page, totalPages, hasNextPage, hasPrevPage, prevPage, nextPage } =
       paginator.value;
@@ -33,21 +33,27 @@ export function usePaginator({ fetchData, qs = {} }) {
       ...query.value,
       page: currentPage.value,
     });
-    paginator.value = data;
+    if (data) {
+      paginator.value = data;
+    }
   });
   watch(currentPage, async () => {
     let data = await fetchData({
       ...query.value,
       page: currentPage.value,
     });
-    paginator.value = data;
+    if (data) {
+      paginator.value = data;
+    }
   });
   watch(query, async () => {
     let data = await fetchData({
       ...query.value,
       page: currentPage.value,
     });
-    paginator.value = data;
+    if (data) {
+      paginator.value = data;
+    }
   });
   watch(refresh, async (isRefresh) => {
     if (isRefresh) {
@@ -55,7 +61,9 @@ export function usePaginator({ fetchData, qs = {} }) {
         ...query.value,
         page: currentPage.value,
       });
-      paginator.value = data;
+      if (data) {
+        paginator.value = data;
+      }
       refresh.value = false;
     }
   });

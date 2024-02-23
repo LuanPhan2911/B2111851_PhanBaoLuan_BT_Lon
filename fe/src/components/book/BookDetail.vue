@@ -1,12 +1,23 @@
 <script>
 import { asset } from "@/helpers";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import defaultBook from "@/assets/images/default_book.png";
 import { useClassButton } from "@/hooks/useClassButton";
+import { useAuth } from "../../hooks/useAuth";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
+import { useTruncate } from "@/hooks/useTruncate";
+import { useModal } from "@/hooks/useModal";
+import Modal from "../layouts/Modal.vue";
+import BookRent from "./BookRent.vue";
 export default {
+  components: { Modal, BookRent, BookRent },
   name: "BookDetail",
   props: ["book"],
   setup(props) {
+    const router = useRouter();
+    const toast = useToast();
+    const { isAuth } = useAuth();
     const book = computed(() => {
       return {
         ...props.book,
@@ -14,8 +25,32 @@ export default {
       };
     });
     const { getRandom: btnClass } = useClassButton();
-    const isTruncate = ref(true);
-    return { book, isTruncate, btnClass };
+    const { showText, truncated } = useTruncate();
+    const { modalContent, onShow, onHide } = useModal([
+      {
+        id: "create",
+        title: "Mượn sách",
+        active: true,
+      },
+    ]);
+    const rentBook = async () => {
+      if (!isAuth.value) {
+        router.push({ name: "login" });
+        toast.warning("Cần đăng nhập để mượn sách!");
+        return;
+      }
+      onShow();
+    };
+    return {
+      book,
+      btnClass,
+      showText,
+      truncated,
+      modalContent,
+      onShow,
+      onHide,
+      rentBook,
+    };
   },
 };
 </script>
@@ -52,21 +87,27 @@ export default {
           <span class="fw-bold"> Số lượng còn lại: </span
           >{{ book?.remain_quantity }}
         </div>
-        <button class="btn btn-danger">Mượn ngay</button>
+        <button class="btn btn-danger" @click="rentBook">Mượn ngay</button>
       </div>
     </div>
     <hr />
     <div class="col-lg-10 mb-3">
       <h4 class="text-primary">Giới thiệu</h4>
-      <div class="line-break" :class="{ 'text-overflow-20-line': isTruncate }">
+      <div class="line-break" :class="{ 'text-overflow-10-line': truncated }">
         {{ book?.description }}
       </div>
-      <span
-        class="text-primary pointer"
-        v-if="isTruncate"
-        @click="isTruncate = false"
+      <span class="text-primary pointer" v-if="truncated" @click="showText"
         >Xem thêm</span
       >
     </div>
+
+    <modal @onHide="onHide">
+      <template #title>
+        <h4 class="modal-title text-primary">{{ modalContent.title }}</h4>
+      </template>
+      <template #body>
+        <book-rent :book="book" @onHide="onHide" />
+      </template>
+    </modal>
   </div>
 </template>

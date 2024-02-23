@@ -24,10 +24,9 @@ export default {
             class="d-flex flex-column justify-content-center align-items-center"
           >
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5WqFhi05_OuYac8xRAUA0R2L1sAXsdR-6mg&usqp=CAU"
+              :src="user?.avatar"
               alt=""
-              width="70px"
-              height="70px"
+              style="width: 70px; height: 70px"
               class="rounded-circle"
             />
             <div class="text-center text-primary">{{ user.name }}</div>
@@ -39,6 +38,11 @@ export default {
             :to="{ name: 'updateUser' }"
             class="nav-link link-primary"
             >Thông tin tài khoản</router-link
+          >
+        </li>
+        <li class="nav-item px-3">
+          <router-link :to="{ name: 'bookShelf' }" class="nav-link link-primary"
+            >Tủ sách</router-link
           >
         </li>
         <li class="nav-item px-3">

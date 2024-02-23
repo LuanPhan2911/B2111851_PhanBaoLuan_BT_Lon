@@ -44,7 +44,9 @@ export default {
         let data = await BookService.show({
           _id,
         });
-        book.value = data;
+        if (data) {
+          book.value = data;
+        }
       } catch (error) {}
     };
     const fetchBooksSameGenres = async () => {
@@ -54,7 +56,9 @@ export default {
           _id: book.value._id,
         };
         let data = await BookService.get(qs);
-        booksSameGenres.value = data;
+        if (data) {
+          booksSameGenres.value = data;
+        }
       } catch (error) {}
     };
     const fetchBooksSamePublisher = async () => {
@@ -64,7 +68,9 @@ export default {
           _id: book.value._id,
         };
         let data = await BookService.get(qs);
-        booksSamePublisher.value = data;
+        if (data) {
+          booksSamePublisher.value = data;
+        }
       } catch (error) {}
     };
     async function fetchComments(query) {

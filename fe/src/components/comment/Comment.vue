@@ -15,7 +15,9 @@ export default {
         let data = await CommentService.getReplies({
           _id: comment.value._id,
         });
-        replies.value = data;
+        if (data) {
+          replies.value = data;
+        }
       } catch (error) {}
     };
     const isShowReplies = ref(false);

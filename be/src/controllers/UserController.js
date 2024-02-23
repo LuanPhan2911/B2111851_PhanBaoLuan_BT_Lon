@@ -7,7 +7,7 @@ const { RentingBookService } = require("../services");
 const UserController = {
   getRentingBooks: async (req, res, next) => {
     let { status, page } = req.query;
-    let { user } = req.user;
+    let user = req.user;
     if (!status) {
       status = "spending";
     }
@@ -23,7 +23,15 @@ const UserController = {
           populate: [
             {
               path: "book",
-              select: "_id name slug",
+              select: "_id name author_name slug image year_publish",
+              populate: [
+                {
+                  path: "genres",
+                },
+                {
+                  path: "publisher",
+                },
+              ],
             },
           ],
         }
