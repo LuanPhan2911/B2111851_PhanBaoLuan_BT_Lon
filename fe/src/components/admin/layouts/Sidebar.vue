@@ -1,11 +1,16 @@
 <script>
+import { useRouter } from "vue-router";
 import { useAuth } from "../../../hooks/useAuth";
 export default {
   setup() {
     const { logout } = useAuth();
-    const onLogout = () => {
+    const router = useRouter();
+    const onLogout = async () => {
       if (confirm("Do you want to sign out?")) {
-        logout();
+        await logout();
+        router.push({
+          name: "login",
+        });
       }
     };
     return { onLogout };

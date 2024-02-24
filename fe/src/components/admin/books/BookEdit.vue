@@ -59,16 +59,16 @@ export default {
 <template>
   <Form @submit="onUpdate" :validationSchema="bookSchema">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-auto">
         <div class="mb-3">
           <select-image
             :imgDefault="defaultBook"
-            :imgUrl="null"
+            :imgUrl="book?.image"
             @getImage="getImage"
           />
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col">
         <div class="mb-3">
           <label for="" class="form-label">Name</label>
           <div class="input-group">

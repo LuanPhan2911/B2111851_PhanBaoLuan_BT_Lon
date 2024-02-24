@@ -2,12 +2,13 @@
   <router-view></router-view>
 </template>
 <script>
-import AuthService from "@/services/AuthService";
+import { onMounted } from "vue";
+import AuthService from "./services/AuthService";
 export default {
-  async created() {
-    try {
+  setup() {
+    onMounted(async () => {
       await AuthService.getUser();
-    } catch (error) {}
+    });
   },
 };
 </script>
@@ -28,6 +29,13 @@ export default {
 .text-overflow-3-line {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-overflow-2-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

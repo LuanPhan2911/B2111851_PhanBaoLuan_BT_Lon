@@ -5,6 +5,7 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import { reactive } from "vue";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
 
 export default {
   name: "LoginView",
@@ -15,6 +16,7 @@ export default {
   },
   setup() {
     const { isAuth } = useAuth();
+    const toast = useToast();
     const { getSchema } = useUserSchema();
     const userSchema = getSchema(["email", "password"]);
     const router = useRouter();
@@ -26,6 +28,7 @@ export default {
       try {
         let data = await AuthService.login(user);
         if (data) {
+          toast.success("Đăng nhập thành công");
           router.back();
         }
       } catch (error) {}

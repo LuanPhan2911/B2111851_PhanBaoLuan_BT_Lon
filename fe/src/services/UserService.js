@@ -68,5 +68,14 @@ class UserService {
       return null;
     } catch (error) {}
   }
+  async deleteRentBook({ _id }) {
+    try {
+      let res = await this._api.delete(`/renting_books/${_id}/delete`);
+      if (res.success) {
+        return true;
+      }
+      return null;
+    } catch (error) {}
+  }
 }
 export default new UserService();

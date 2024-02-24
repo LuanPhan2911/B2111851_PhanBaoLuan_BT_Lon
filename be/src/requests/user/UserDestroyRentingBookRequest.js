@@ -9,6 +9,7 @@ const UserDestroyRentingBookRequest = async (req, res, next) => {
     let { _id: renting_book_id } = req.params;
     let { _id: user_id } = req.user;
     let rentingBook = await RentingBook.findById(renting_book_id);
+
     if (rentingBook?.status !== "spending") {
       throw new ApiError(400, "Can not delete when status different spending");
     }

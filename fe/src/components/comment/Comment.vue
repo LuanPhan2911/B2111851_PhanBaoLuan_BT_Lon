@@ -44,9 +44,19 @@ export default {
           Xem {{ comment.replies_count }} trả lời
         </div>
         <div v-else></div>
-        <button class="btn btn-primary" @click="isShowReplies = !isShowReplies">
-          <span v-if="!isShowReplies"><i class="bi bi-reply"></i> Trả lời</span>
-          <span v-else><i class="bi bi-x"></i>Đóng</span>
+        <button
+          class="btn btn-primary"
+          @click="isShowReplies = !isShowReplies"
+          v-if="!isShowReplies"
+        >
+          <span><i class="bi bi-reply"></i></span>
+        </button>
+        <button
+          class="btn btn-success"
+          @click="isShowReplies = !isShowReplies"
+          v-else
+        >
+          <span><i class="bi bi-x"></i></span>
         </button>
       </div>
     </template>

@@ -37,7 +37,7 @@ export default {
 };
 </script>
 <template>
-  <div class="position-relative p-3 mb-2 border-bottom">
+  <div class="position-relative mb-2 border-bottom py-2">
     <div class="row">
       <div class="col-auto">
         <img :src="user.avatar" class="avatar rounded-circle" />
@@ -48,14 +48,12 @@ export default {
             <div class="fw-bold text-primary text-capitalize">
               {{ user.name }}
             </div>
-            <div>
-              <i class="bi bi-clock"></i
-              ><span class="mx-2">{{ comment.createdAt }}</span>
+            <div class="small">
+              {{ comment.createdAt }}
             </div>
           </div>
           <div
-            class="mt-2"
-            style="min-height: 50px"
+            class="py-2"
             ref="textRef"
             :class="{
               'text-overflow-3-line': truncated,
@@ -79,7 +77,7 @@ export default {
 </template>
 <style scoped>
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 </style>

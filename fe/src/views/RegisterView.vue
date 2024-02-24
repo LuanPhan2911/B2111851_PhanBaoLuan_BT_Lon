@@ -3,6 +3,8 @@ import { useUserSchema } from "@/hooks/useUserSchema";
 import { reactive } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from "@/services/AuthService";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toast-notification";
 export default {
   components: {
     Form,
@@ -12,6 +14,8 @@ export default {
   name: "RegisterView",
   setup() {
     const { getSchema } = useUserSchema();
+    const router = useRouter();
+    const toast = useToast();
     const useSchema = getSchema([
       "name",
       "email",
@@ -24,14 +28,18 @@ export default {
       password: "",
       confirm_password: "",
     });
-    return { useSchema, user };
-  },
-  methods: {
-    async onRegister() {
+    const onRegister = async () => {
       try {
-        await AuthService.register(this.user);
+        let data = await AuthService.register(user);
+        if (data) {
+          toast.success("Đăng ký thành công");
+          router.push({
+            name: "home",
+          });
+        }
       } catch (error) {}
-    },
+    };
+    return { useSchema, user, onRegister };
   },
 };
 </script>

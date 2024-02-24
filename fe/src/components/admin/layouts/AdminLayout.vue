@@ -3,6 +3,7 @@ import Navbar from "./Navbar.vue";
 import Sidebar from "./Sidebar.vue";
 export default {
   components: { Sidebar, Navbar },
+  setup() {},
 };
 </script>
 <template>

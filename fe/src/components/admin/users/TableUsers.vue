@@ -13,68 +13,70 @@ export default {
 };
 </script>
 <template>
-  <table class="table table-hover caption-top shadow table-responsive-lg">
-    <caption>
-      <h3 class="text-primary">All Users</h3>
-    </caption>
-    <thead class="table-info">
-      <tr>
-        <th>Avatar</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>BirthYear</th>
-        <th>Gender</th>
-        <th>Address</th>
-        <th>CreateAt</th>
-        <th><i class="bi bi-arrow-down-up"></i> Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        :class="{ 'table-warning': user.deletedAt }"
-        v-for="user in users"
-        :key="user._id"
-      >
-        <td>
-          <img :src="user.avatar" alt="" class="avatar rounded-circle" />
-        </td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.birthday }}</td>
-        <td>{{ user.gender }}</td>
-        <td>{{ user.address }}</td>
-        <td>{{ user.createdAt }}</td>
-        <td>
-          <button
-            class="btn btn-success"
-            v-if="user.deletedAt"
-            @click="
-              () =>
-                onLock({
-                  status: 'unlock',
-                  _id: user._id,
-                })
-            "
-          >
-            <i class="bi bi-unlock"></i>
-          </button>
-          <button
-            class="btn btn-warning"
-            v-else
-            @click="
-              () =>
-                onLock({
-                  status: 'lock',
-                  _id: user._id,
-                })
-            "
-          >
-            <i class="bi bi-lock-fill"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-hover caption-top shadow">
+      <caption>
+        <h3 class="text-primary">All Users</h3>
+      </caption>
+      <thead class="table-info">
+        <tr>
+          <th>Avatar</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>BirthYear</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>CreateAt</th>
+          <th><i class="bi bi-arrow-down-up"></i> Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          :class="{ 'table-warning': user.deletedAt }"
+          v-for="user in users"
+          :key="user._id"
+        >
+          <td>
+            <img :src="user.avatar" alt="" class="avatar rounded-circle" />
+          </td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.birthday }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.createdAt }}</td>
+          <td>
+            <button
+              class="btn btn-success"
+              v-if="user.deletedAt"
+              @click="
+                () =>
+                  onLock({
+                    status: 'unlock',
+                    _id: user._id,
+                  })
+              "
+            >
+              <i class="bi bi-unlock"></i>
+            </button>
+            <button
+              class="btn btn-warning"
+              v-else
+              @click="
+                () =>
+                  onLock({
+                    status: 'lock',
+                    _id: user._id,
+                  })
+              "
+            >
+              <i class="bi bi-lock-fill"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 <style scoped>
 .avatar {

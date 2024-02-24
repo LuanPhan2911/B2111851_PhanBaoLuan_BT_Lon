@@ -38,27 +38,27 @@ export default {
 };
 </script>
 <template>
-  <div class="position-relative p-3" v-if="isAuth">
+  <div class="py-2" v-if="isAuth">
     <div class="row">
       <div class="col-auto">
         <img :src="user.avatar" class="avatar rounded-circle" />
       </div>
       <div class="col">
+        <div class="text-primary text-capitalize fw-bold align-items-center">
+          {{ user.name }}
+        </div>
+      </div>
+      <div class="col-12 my-2">
         <div class="card-body">
-          <div class="text-primary text-capitalize fw-bold">
-            {{ user.name }}
-          </div>
           <textarea
-            rows="3"
+            rows="2"
             class="form-control"
             placeholder="Nhập bình luận của bạn..."
             v-model="comment.message"
           ></textarea>
-
-          <button
-            class="btn btn-primary position-absolute bottom-0 end-0"
-            @click="send"
-          >
+        </div>
+        <div class="d-flex justify-content-end mt-2">
+          <button class="btn btn-primary" @click="send">
             <i class="bi bi-send"></i>
           </button>
         </div>

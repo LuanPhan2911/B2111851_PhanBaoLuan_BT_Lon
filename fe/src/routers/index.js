@@ -7,8 +7,8 @@ import UpdateProfileView from "@/views/UpdateProfileView.vue";
 import BookShelfView from "@/views/BookShelfView.vue";
 import BookFilterView from "@/views/BookFilterView.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
-import store from "@/stores/store";
 import admin from "./admin";
+import { guard } from "@/helpers";
 const routes = [
   {
     path: "/",
@@ -63,26 +63,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes: routes,
 });
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!localStorage.getItem("token")) {
-//       next({
-//         path: "/login",
-//         params: { nextUrl: to.fullPath },
-//       });
-//     } else {
-//       if (!store.state.isAuth) {
-//         next({
-//           path: "/login",
-//           params: { nextUrl: to.fullPath },
-//         });
-//       } else {
-//         next();
-//       }
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach(async (to, from, next) => {
+  await guard(to, from, next);
+});
 
 export default router;

@@ -56,34 +56,33 @@ export default {
 </script>
 <template>
   <div>
-    <div class="row mb-3">
+    <div class="row">
       <div class="col-lg-3">
         <img :src="book?.image" alt="" class="book-image img-thumbnail" />
       </div>
       <div class="col-lg-6 border-start">
         <h4>{{ book?.name }}</h4>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold">Tác giả: </span> {{ book?.author_name }}
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold">Thể loại: </span>
-          <button
-            class="btn"
-            :class="btnClass()"
+          <span
+            class="fw-bold m-2"
             v-for="genre in book?.genres"
             :key="genre?._id"
           >
             {{ genre?.name }}
-          </button>
+          </span>
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold">Nhà xuất bản: </span>
           {{ book?.publisher?.name }}
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold">Năm xuất bản: </span> {{ book?.year_publish }}
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold"> Số lượng còn lại: </span
           >{{ book?.remain_quantity }}
         </div>
@@ -91,7 +90,7 @@ export default {
       </div>
     </div>
     <hr />
-    <div class="col-lg-10 mb-3">
+    <div class="col-lg-10 mb-2">
       <h4 class="text-primary">Giới thiệu</h4>
       <div class="line-break" :class="{ 'text-overflow-10-line': truncated }">
         {{ book?.description }}

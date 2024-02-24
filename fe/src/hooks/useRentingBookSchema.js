@@ -26,7 +26,7 @@ export function useRentingBookSchema() {
     days_after_expire: yup
       .number()
       .required("Số ngày mượn bắt buộc phải điền")
-      .min(7, "Số ngày mượn tối thiểu là 7"),
+      .min(1, "Số ngày mượn tối thiểu là 1"),
   };
   const rentingBookSchema = yup.object().shape(obj);
   const getSchema = (keys) => yup.object().shape(filterObjectByKeys(obj, keys));

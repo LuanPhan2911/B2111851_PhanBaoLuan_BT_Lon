@@ -106,13 +106,14 @@ export default {
 <template>
   <div>
     <button class="btn btn-primary" @click="showModal('create')">
-      Create Renting
+      Create Renting Book
     </button>
+    <hr />
     <div class="mt-3">
       <tab-bar>
         <template #title>
           <button
-            class="nav-item btn btn-primary active"
+            class="btn btn-primary active m-2 fw-bold"
             data-bs-target="#nav-spending"
             data-bs-toggle="tab"
             @click="changeStatus('spending')"
@@ -120,7 +121,7 @@ export default {
             Spending
           </button>
           <button
-            class="nav-item btn btn-warning"
+            class="btn btn-warning m-2 fw-bold"
             data-bs-target="#nav-renting"
             data-bs-toggle="tab"
             @click="changeStatus('renting')"
@@ -128,7 +129,7 @@ export default {
             Renting
           </button>
           <button
-            class="nav-item btn btn-success"
+            class="btn btn-success m-2 fw-bold"
             data-bs-target="#nav-completed"
             data-bs-toggle="tab"
             @click="changeStatus('completed')"
@@ -136,7 +137,7 @@ export default {
             Completed
           </button>
           <button
-            class="nav-item btn btn-danger"
+            class="btn btn-danger m-2 fw-bold"
             data-bs-target="#nav-expired"
             data-bs-toggle="tab"
             @click="changeStatus('expired')"

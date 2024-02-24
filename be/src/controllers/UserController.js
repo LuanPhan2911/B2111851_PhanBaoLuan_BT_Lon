@@ -23,15 +23,7 @@ const UserController = {
           populate: [
             {
               path: "book",
-              select: "_id name author_name slug image year_publish",
-              populate: [
-                {
-                  path: "genres",
-                },
-                {
-                  path: "publisher",
-                },
-              ],
+              select: "_id name slug image",
             },
           ],
         }

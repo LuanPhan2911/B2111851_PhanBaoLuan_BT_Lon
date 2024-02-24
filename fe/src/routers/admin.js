@@ -12,6 +12,10 @@ export default [
   {
     path: "/admin",
     component: AdminLayout,
+    meta: {
+      requiresAdmin: true,
+      requiresAuth: true,
+    },
     children: [
       {
         path: "",
@@ -48,7 +52,7 @@ export default [
             component: BookCreateView,
           },
           {
-            path: ":slug/edit",
+            path: "edit",
             name: "adminBookEditView",
             component: BookEditView,
           },

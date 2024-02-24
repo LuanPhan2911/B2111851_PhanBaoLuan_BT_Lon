@@ -1,5 +1,4 @@
 <script>
-import { computed, ref } from "vue";
 import TabBar from "../components/layouts/TabBar.vue";
 import BookShelf from "../components/user/BookShelf.vue";
 import UserService from "@/services/UserService";
@@ -14,6 +13,7 @@ export default {
       changePage,
       links,
       changeQuery,
+      onRefresh,
     } = usePaginator({
       fetchData: fetchBooks,
       qs: {
@@ -31,7 +31,17 @@ export default {
         status,
       });
     };
-    return { rentBooks, links, changeStatus, changePage };
+    const deleteRentBook = async ({ _id }) => {
+      try {
+        let data = await UserService.deleteRentBook({
+          _id,
+        });
+        if (data) {
+          onRefresh();
+        }
+      } catch (error) {}
+    };
+    return { rentBooks, links, changeStatus, changePage, deleteRentBook };
   },
 };
 </script>
@@ -41,7 +51,7 @@ export default {
     <tab-bar>
       <template #title>
         <button
-          class="nav-item btn btn-primary active"
+          class="btn btn-primary active m-2 fw-bold"
           data-bs-target="#nav-spending"
           data-bs-toggle="tab"
           @click="changeStatus('spending')"
@@ -49,7 +59,7 @@ export default {
           Chờ xác nhận
         </button>
         <button
-          class="nav-item btn btn-warning"
+          class="btn btn-warning m-2 fw-bold"
           data-bs-target="#nav-renting"
           data-bs-toggle="tab"
           @click="changeStatus('renting')"
@@ -57,7 +67,7 @@ export default {
           Đang mượn
         </button>
         <button
-          class="nav-item btn btn-success"
+          class="btn btn-success m-2 fw-bold"
           data-bs-target="#nav-completed"
           data-bs-toggle="tab"
           @click="changeStatus('completed')"
@@ -65,7 +75,7 @@ export default {
           Đã trả
         </button>
         <button
-          class="nav-item btn btn-danger"
+          class="btn btn-danger m-2 fw-bold"
           data-bs-target="#nav-expired"
           data-bs-toggle="tab"
           @click="changeStatus('expired')"
@@ -75,19 +85,35 @@ export default {
       </template>
       <template #body>
         <div class="tab-pane fade show active" id="nav-spending">
-          <book-shelf :rentBooks="rentBooks" :status="'Chờ xác nhận'" />
+          <book-shelf
+            :rentBooks="rentBooks"
+            :status="'spending'"
+            @delete="deleteRentBook"
+          />
           <paginator :links="links" @changePage="changePage" />
         </div>
         <div class="tab-pane fade" id="nav-renting">
-          <book-shelf :rentBooks="rentBooks" :status="'Đang mượn'" />
+          <book-shelf
+            :rentBooks="rentBooks"
+            :status="'renting'"
+            @delete="deleteRentBook"
+          />
           <paginator :links="links" @changePage="changePage" />
         </div>
         <div class="tab-pane fade" id="nav-completed">
-          <book-shelf :rentBooks="rentBooks" :status="'Đã trả'" />
+          <book-shelf
+            :rentBooks="rentBooks"
+            :status="'completed'"
+            @delete="deleteRentBook"
+          />
           <paginator :links="links" @changePage="changePage" />
         </div>
         <div class="tab-pane fade" id="nav-expired">
-          <book-shelf :rentBooks="rentBooks" :status="'Quá hạn'" />
+          <book-shelf
+            :rentBooks="rentBooks"
+            :status="'expired'"
+            @delete="deleteRentBook"
+          />
           <paginator :links="links" @changePage="changePage" />
         </div>
       </template>

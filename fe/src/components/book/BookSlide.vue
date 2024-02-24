@@ -20,7 +20,7 @@ export default {
     const breakpoints = ref({
       // 700px and up
       700: {
-        itemsToShow: 3.5,
+        itemsToShow: 3,
         snapAlign: "center",
       },
       // 1024 and up
@@ -70,7 +70,7 @@ export default {
         "
       >
         <img :src="book.image" class="img" />
-        <div class="fw-bold">{{ book.name }}</div>
+        <div class="fw-bold text-overflow-2-line">{{ book.name }}</div>
       </div>
     </slide>
   </carousel>
@@ -78,11 +78,11 @@ export default {
 </template>
 <style scoped>
 .carousel__item {
-  min-height: 300px;
-  width: 200px;
+  min-height: 200px;
+  width: 150px;
 }
 .carousel__item .img {
-  height: 250px;
-  width: 200px;
+  height: 200px;
+  width: 150px;
 }
 </style>

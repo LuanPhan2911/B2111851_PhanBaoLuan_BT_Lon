@@ -72,7 +72,7 @@ export default {
 <template>
   <Form @submit="onCreate" :validationSchema="bookSchema">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-auto">
         <div class="mb-3">
           <select-image
             :imgDefault="defaultBook"
@@ -81,7 +81,7 @@ export default {
           />
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col">
         <div class="mb-3">
           <label for="" class="form-label">Name</label>
           <div class="input-group">

@@ -12,6 +12,7 @@ export default {
         return {
           title: item,
           path: `/${paths.slice(0, index + 1).join("/")}`,
+          query: route.query,
         };
       });
     });
@@ -28,7 +29,12 @@ export default {
         :key="breadcrumb.title"
       >
         <router-link
-          :to="{ path: breadcrumb.path }"
+          :to="{
+            path: breadcrumb.path,
+            query: {
+              ...breadcrumb.query,
+            },
+          }"
           class="text-capitalize link-primary"
           >{{ breadcrumb.title }}</router-link
         >

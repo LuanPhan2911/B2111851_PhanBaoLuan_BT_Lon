@@ -18,7 +18,7 @@ export default {
 </script>
 <template>
   <div
-    class="shadow mb-3 position-relative border-bottom col-lg-6"
+    class="shadow mb-2 position-relative border-bottom col-lg-6"
     style="height: 170px"
   >
     <div class="row">
@@ -26,11 +26,11 @@ export default {
         <img :src="book.image" alt="" class="image" />
       </div>
       <div class="col">
-        <h4 class="mb-3">{{ book?.name }}</h4>
-        <div class="mb-3">
+        <div class="mb-2 fw-bold">{{ book?.name }}</div>
+        <div class="mb-2">
           <span class="fw-bold">Tác giả: </span> {{ book?.author_name }}
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <span class="fw-bold">Thể loại: </span>
           <button class="btn" v-for="genre in book?.genres" :key="genre?._id">
             {{ genre?.name }}

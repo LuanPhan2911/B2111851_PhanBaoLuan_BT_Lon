@@ -13,7 +13,7 @@ const createClient = (url) => {
   instance.interceptors.response.use(
     (response) => {
       let { message } = response?.data;
-      $toast.success(message || "Response success without message");
+      // $toast.success(message || "Response success without message");
       return response.data;
     },
     (error) => {

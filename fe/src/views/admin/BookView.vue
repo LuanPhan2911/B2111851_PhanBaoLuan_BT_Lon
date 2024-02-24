@@ -67,18 +67,15 @@ export default {
 <template>
   <div>
     <div class="mb-3 row justify-content-between gap-2">
-      <div class="col-lg-5 col-sm-12">
+      <div class="col-auto">
         <router-link
           :to="{ name: 'adminBookCreateView' }"
           class="btn btn-primary"
           >Create</router-link
         >
       </div>
-      <div class="col-lg-5 col-sm-12">
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-search"></i>
-          </span>
+      <div class="col-lg-8 col-sm-12">
+        <div class="mb-3">
           <input
             class="form-control"
             type="search"
