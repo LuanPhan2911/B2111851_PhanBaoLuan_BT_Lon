@@ -7,6 +7,7 @@ import UpdateProfileView from "@/views/UpdateProfileView.vue";
 import BookShelfView from "@/views/BookShelfView.vue";
 import BookFilterView from "@/views/BookFilterView.vue";
 import UserLayout from "@/components/layouts/UserLayout.vue";
+import PageNotFoundView from "@/views/PageNotFoundView.vue";
 import admin from "./admin";
 import { guard } from "@/helpers";
 const routes = [
@@ -54,6 +55,11 @@ const routes = [
         meta: {
           requiresAuth: true,
         },
+      },
+      {
+        path: "/:pathMatch(.*)*",
+        name: "404",
+        component: PageNotFoundView,
       },
     ],
   },
