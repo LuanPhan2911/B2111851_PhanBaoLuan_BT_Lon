@@ -15,6 +15,7 @@ export default {
         },
       });
     });
+    const isHover = ref(false);
     const search = () => {
       router.push({
         name: "bookFilter",
@@ -23,7 +24,7 @@ export default {
         },
       });
     };
-    return { q, search };
+    return { q, isHover, search };
   },
 };
 </script>
@@ -36,7 +37,13 @@ export default {
       v-model="q"
       @keydown.enter="search"
     />
-    <button class="btn btn-primary ms-2" @click="search">
+    <button
+      class="btn btn-primary ms-2 animate__animated"
+      :class="{ animate__hinge: isHover }"
+      @click="search"
+      @mouseover="isHover = true"
+      @mouseout="isHover = false"
+    >
       <i class="bi bi-search"></i>
     </button>
   </div>

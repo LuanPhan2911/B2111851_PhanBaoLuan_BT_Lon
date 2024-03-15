@@ -41,6 +41,7 @@ export default {
   },
 
   async created() {
+    document.title = "Profile";
     try {
       let data = await UserService.edit();
 
@@ -62,6 +63,7 @@ export default {
           formData.append("avatar", this.imageUploaded);
           await UserService.updateImage(formData);
         }
+        this.$toast.success("Đã cập nhật tài khoản thành công");
       } catch (error) {}
     },
     getImage(file) {
@@ -76,7 +78,7 @@ export default {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-9">
-        <div class="card shadow">
+        <div class="card shadow animate__animated animate__backInDown">
           <div class="card-header">
             <h3 class="text-center text-primary">Tài khoản</h3>
           </div>

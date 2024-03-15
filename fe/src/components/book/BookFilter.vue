@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import defaultBook from "@/assets/images/default_book.png";
 import { asset } from "@/helpers";
+import { useRouter } from "vue-router";
 export default {
   name: "BookFilter",
   props: ["book"],
@@ -12,14 +13,27 @@ export default {
         image: props.book?.image ? asset(props.book?.image) : defaultBook,
       };
     });
-    return { book };
+    const router = useRouter();
+    const showDetail = (book) => {
+      router.push({
+        name: "bookDetail",
+        params: {
+          slug: book.slug,
+        },
+        query: {
+          _id: book._id,
+        },
+      });
+    };
+    return { book, showDetail };
   },
 };
 </script>
 <template>
   <div
-    class="shadow mb-2 position-relative border-bottom col-lg-6"
+    class="shadow mb-2 position-relative border-bottom col-lg-6 pointer"
     style="height: 170px"
+    @click="showDetail(book)"
   >
     <div class="row">
       <div class="col-auto">

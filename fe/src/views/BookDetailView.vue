@@ -111,7 +111,9 @@ export default {
 };
 </script>
 <template>
-  <div class="container row shadow bg-white bg-opacity-75 rounded-2 min-vh-100">
+  <div
+    class="container row shadow bg-white bg-opacity-75 rounded-2 min-vh-100 p-3"
+  >
     <book-detail :book="book" />
     <hr />
     <div class="col-lg-10 mb-3">

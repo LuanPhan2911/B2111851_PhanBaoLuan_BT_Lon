@@ -5,6 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 import "vue-select/dist/vue-select.css";
 import "vue3-carousel/dist/carousel.css";
+import "animate.css";
 import vSelect from "vue-select";
 import { createApp } from "vue";
 import router from "@/routers";

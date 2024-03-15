@@ -47,7 +47,9 @@ export default {
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8 my-3">
+      <div
+        class="col-lg-6 col-md-8 my-3 animate__animated animate__bounceInDown"
+      >
         <div class="card shadow">
           <div class="card-header">
             <h3 class="text-center text-primary">Đăng ký</h3>

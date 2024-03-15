@@ -2,7 +2,7 @@
 import { useUserSchema } from "@/hooks/useUserSchema";
 import AuthService from "@/services/AuthService";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toast-notification";
@@ -24,6 +24,10 @@ export default {
       email: "",
       password: "",
     });
+    onMounted(() => {
+      document.title = "Login";
+    });
+
     const onLogin = async () => {
       try {
         let data = await AuthService.login(user);
@@ -33,6 +37,7 @@ export default {
         }
       } catch (error) {}
     };
+
     return { user, userSchema, isAuth, onLogin };
   },
 };
@@ -41,7 +46,7 @@ export default {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-6 my-3 col-md-8">
-        <div class="card shadow">
+        <div class="card shadow animate__animated animate__bounceInDown">
           <div class="card-header">
             <h3 class="text-center text-primary">Đăng nhập</h3>
           </div>

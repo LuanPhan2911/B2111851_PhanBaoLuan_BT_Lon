@@ -57,11 +57,12 @@ export default {
   <carousel
     v-bind="settings"
     :breakpoints="breakpoints"
+    :autoplay="2000"
     v-if="books?.length > 0"
   >
     <slide v-for="book in books" :key="book._id">
       <div
-        class="carousel__item pointer"
+        class="carousel__item pointer shadow"
         @click="
           showDetail({
             _id: book._id,
