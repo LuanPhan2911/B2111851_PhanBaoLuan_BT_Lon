@@ -54,6 +54,11 @@ export default {
         :class="genre?.btnClass"
         :hoverClass="'animate__heartBeat'"
         style="font-size: 12px"
+        @click="
+          showBook({
+            _id: genre._id,
+          })
+        "
       >
       </button-hover>
     </div>

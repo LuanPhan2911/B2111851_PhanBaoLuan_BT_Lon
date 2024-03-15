@@ -16,7 +16,11 @@ const Scheduler = require("./src/schedules/Scheduler");
 app.use(express.static("public"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+app.use(express.static("dist"));
 
+app.get((req, res) => {
+  return res.send("index.html");
+});
 app.use("/api", auth);
 app.use("/api/users", user);
 app.use("/api/genres", genre);
