@@ -1,6 +1,6 @@
 <script>
 import { useUserSchema } from "@/hooks/useUserSchema";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import AuthService from "@/services/AuthService";
 import { useRouter } from "vue-router";
@@ -39,6 +39,9 @@ export default {
         }
       } catch (error) {}
     };
+    onMounted(() => {
+      document.title = "Register";
+    });
     return { useSchema, user, onRegister };
   },
 };

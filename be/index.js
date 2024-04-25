@@ -14,13 +14,10 @@ const {
 const { ResourceNotFoundException } = require("./src/utils/exceptions/handler");
 const Scheduler = require("./src/schedules/Scheduler");
 app.use(express.static("public"));
+
 app.use(cors({ origin: "*" }));
 app.use(express.json());
-app.use(express.static("dist"));
 
-app.get((req, res) => {
-  return res.send("index.html");
-});
 app.use("/api", auth);
 app.use("/api/users", user);
 app.use("/api/genres", genre);
@@ -29,6 +26,12 @@ app.use("/api/books", book);
 app.use("/api/comments", comment);
 app.use("/api/admin", admin);
 
+app.get("*", (req, res, next) => {
+  if (req.originalUrl.includes("/api")) {
+    return next();
+  }
+  return res.sendFile(__dirname + "/public" + "/index.html");
+});
 app.use((req, res, next) => {
   return next(ResourceNotFoundException);
 });

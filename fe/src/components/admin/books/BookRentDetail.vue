@@ -170,7 +170,7 @@ export default {
           :value="rentBookDetail?.expire_at"
         />
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-4" v-if="rentBookDetail?.status != 'completed'">
         <label for="valid" class="form-label">Valid</label>
         <input
           class="form-control text-capitalize fw-bold"

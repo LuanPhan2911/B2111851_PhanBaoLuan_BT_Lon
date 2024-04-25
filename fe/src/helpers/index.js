@@ -30,7 +30,7 @@ export async function guard(to, from, next) {
       !store.state.user.isAdmin
     ) {
       next({
-        name: "login",
+        name: "home",
       });
       return;
     }

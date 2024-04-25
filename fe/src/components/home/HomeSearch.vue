@@ -38,8 +38,7 @@ export default {
       @keydown.enter="search"
     />
     <button
-      class="btn btn-primary ms-2 animate__animated"
-      :class="{ animate__hinge: isHover }"
+      class="btn btn-primary ms-2"
       @click="search"
       @mouseover="isHover = true"
       @mouseout="isHover = false"

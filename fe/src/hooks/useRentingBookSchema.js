@@ -17,16 +17,21 @@ export function useRentingBookSchema() {
       .required("Số điện thoại bắt buộc phải điền"),
     gender: yup.number().oneOf([1, 0], "Giới tính không hợp lệ"),
     address: yup.string().required("Địa chỉ bắt buộc phải điền"),
-    remain_quantity: yup.number().required(),
+    remain_quantity: yup
+      .number()
+      .required("Số lượng mượn bắt buộc phải điền")
+      .transform((_, val) => (val === Number(val) ? val : null)),
     renting_quantity: yup
       .number()
       .required("Số lượng bắt buộc phải điền")
       .min(1, "Số lượng tối thiểu là 1")
-      .max(yup.ref("remain_quantity"), "Số lượng không hợp lệ"),
+      .max(yup.ref("remain_quantity"), "Số lượng không hợp lệ")
+      .transform((_, val) => (val === Number(val) ? val : null)),
     days_after_expire: yup
       .number()
       .required("Số ngày mượn bắt buộc phải điền")
-      .min(1, "Số ngày mượn tối thiểu là 1"),
+      .min(1, "Số ngày mượn tối thiểu là 1")
+      .transform((_, val) => (val === Number(val) ? val : null)),
   };
   const rentingBookSchema = yup.object().shape(obj);
   const getSchema = (keys) => yup.object().shape(filterObjectByKeys(obj, keys));

@@ -2,7 +2,6 @@
 import { Form, Field, ErrorMessage } from "vee-validate";
 import { computed, onMounted, reactive, watch } from "vue";
 import { useRentingBookSchema } from "@/hooks/useRentingBookSchema";
-import { useAuth } from "../../hooks/useAuth";
 import UserService from "@/services/UserService";
 import { useToast } from "vue-toast-notification";
 export default {

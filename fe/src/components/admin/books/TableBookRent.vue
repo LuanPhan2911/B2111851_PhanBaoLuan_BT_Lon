@@ -87,7 +87,11 @@ export default {
         <tr
           v-for="item in rentBooks"
           :key="item._id"
-          :class="[item?.hasExpire ? 'table-danger' : 'table-success']"
+          :class="[
+            status != 'completed' && item?.hasExpire
+              ? 'table-danger'
+              : 'table-success',
+          ]"
         >
           <td>{{ item?.user?.name }}</td>
           <td>{{ item?.user?.phone_number }}</td>
@@ -98,9 +102,13 @@ export default {
           <td class="fw-bold text-capitalize">{{ item?.toExpired }}</td>
           <td
             class="fw-bold text-capitalize"
-            :class="[item?.hasExpire ? 'text-danger' : 'text-primary']"
+            :class="[
+              status != 'completed' && item?.hasExpire
+                ? 'text-danger'
+                : 'text-primary',
+            ]"
           >
-            {{ item?.valid }}
+            {{ status == "completed" ? "Completed" : item?.valid }}
           </td>
           <td class="col-2">
             <button

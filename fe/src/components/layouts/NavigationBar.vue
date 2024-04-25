@@ -5,7 +5,7 @@ import Offcanvas from "./Offcanvas.vue";
 export default {
   components: { Offcanvas },
   setup() {
-    const { isAuth, user, logout } = useAuth();
+    const { isAuth, isAdmin, user, logout } = useAuth();
     const router = useRouter();
     const onLogout = async () => {
       if (confirm("Bạn muốn đăng xuất tài khoản?")) {
@@ -16,7 +16,7 @@ export default {
       }
     };
 
-    return { isAuth, user, onLogout };
+    return { isAuth, isAdmin, user, onLogout };
   },
 };
 </script>
@@ -39,6 +39,13 @@ export default {
           </div>
           <hr />
         </li>
+        <li class="nav-item px-3" data-bs-dismiss="offcanvas" v-if="isAdmin">
+          <router-link
+            :to="{ name: 'adminDashboardView' }"
+            class="nav-link link-primary"
+            >Quản lý thư viện</router-link
+          >
+        </li>
         <li class="nav-item px-3" data-bs-dismiss="offcanvas">
           <router-link
             :to="{ name: 'updateUser' }"
@@ -51,6 +58,7 @@ export default {
             >Tủ sách</router-link
           >
         </li>
+
         <li class="nav-item px-3" data-bs-dismiss="offcanvas">
           <button class="nav-link link-danger pointer" @click="onLogout">
             Thoát

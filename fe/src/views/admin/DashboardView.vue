@@ -136,14 +136,6 @@ export default {
           >
             Completed
           </button>
-          <button
-            class="btn btn-danger m-2 fw-bold"
-            data-bs-target="#nav-expired"
-            data-bs-toggle="tab"
-            @click="changeStatus('expired')"
-          >
-            Expired
-          </button>
         </template>
         <template #body>
           <div class="tab-pane fade show active" id="nav-spending">
@@ -171,17 +163,6 @@ export default {
           <div class="tab-pane fade" id="nav-completed">
             <table-book-rent
               status="completed"
-              :rentBooks="rentBooks"
-              @showModal="showModal"
-              @selectRentBook="selectRentBook"
-              @refreshRentBook="refreshRentBook"
-              :nextStatus="null"
-            />
-            <paginator :links="links" @changePage="changePage" />
-          </div>
-          <div class="tab-pane fade" id="nav-expired">
-            <table-book-rent
-              status="expired"
               :rentBooks="rentBooks"
               @showModal="showModal"
               @selectRentBook="selectRentBook"

@@ -63,7 +63,8 @@ export default {
       <div class="col-lg-6 border-start">
         <h4>{{ book?.name }}</h4>
         <div class="mb-2">
-          <span class="fw-bold">Tác giả: </span> {{ book?.author_name }}
+          <span class="fw-bold">Tác giả: </span>
+          {{ book?.author_name }}
         </div>
         <div class="mb-2">
           <span class="fw-bold">Thể loại: </span>

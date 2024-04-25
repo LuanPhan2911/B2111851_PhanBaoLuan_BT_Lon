@@ -13,17 +13,18 @@ export function useUserSchema() {
       .max(50, "Email tối đa 50 ký tự"),
     password: yup
       .string()
-      .required("Mất khẩu bắt buộc phải điền")
+      .required("Mật khẩu bắt buộc phải điền")
       .min(6, "Mật khẩu tối thiểu 6 ký tự"),
     confirm_password: yup
       .string()
-      .required()
+      .required("Nhập lại mật khẩu bắt buộc phải điền")
       .oneOf([yup.ref("password"), null], "Nhập lại mật khẩu không khớp"),
     birthday: yup
       .number()
-      .nullable()
       .min(1900, "Năm sinh không không lệ")
-      .max(new Date().getFullYear(), "Năm sinh không hơp lệ"),
+      .max(new Date().getFullYear(), "Năm sinh không hơp lệ")
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
     phone_number: yup
       .string()
       .matches(/(84|0[3|5|7|8|9])+([0-9]{8})\b/g, "Số điện thoại không hợp lệ")
